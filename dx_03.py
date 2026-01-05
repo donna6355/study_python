@@ -34,11 +34,63 @@ subway = ["아이언맨", "토르", "캡틴아메리카", "블랙위도우", "�
 last_passenger = subway.pop()     # "호크아이" 하차
 print(last_passenger)
 print(subway)
+first_passenger = subway.pop(0)    # "아이언맨" 하차
+print(first_passenger)
+print(subway)
 
 # del로 두 번째 승객 하차
-del subway[1]                     # "토르" 하차
+del subway[0]                     # "토르" 하차
 print(subway)
 
 # remove로 특정 승객 하차
 subway.remove("캡틴아메리카")        # "캡틴아메리카" 하차
 print(subway)
+
+# clear all elements
+subway.clear()
+print(subway)  # Output: []
+
+
+#sort list
+numbers = [5, 2, 9, 1, 6]
+numbers.sort()
+print(numbers)  # Output: [1, 2, 5, 6, 9]
+
+# sort in descending order
+numbers.sort(reverse=True)
+print(numbers)  # Output: [9, 6, 5, 2, 1]
+
+# copy sort list
+nums = [3, 1, 4, 2, 5]
+sorted_nums = sorted(nums)
+print(sorted_nums)  # Output: [1, 1, 3, 4, 5]
+print(nums)         # Original list remains unchanged: [3, 1, 4, 1, 5]
+
+
+#extend list
+one = [1,2,3]
+two = [4,5,6]
+one.extend(two)
+print(one)  # Output: [1, 2, 3, 4, 5, 6]
+
+newlist = one+two
+print(newlist)  # Output: [1, 2, 3, 4, 5, 6, 4, 5, 6]
+
+# check element in list
+print("Isaac" in subway)  # Output: False
+
+#count total number of element
+print(newlist.count(2))  # Output: 1
+print(newlist.count(4))  # Output: 1
+
+
+#practice
+numbers = [1,2,3,4,5]
+reversed = []
+# reversed_numbers = sorted(numbers, reverse=True)
+
+while len(numbers) > 0:
+    reversed.append(numbers.pop())
+
+print(numbers)
+print(reversed)
