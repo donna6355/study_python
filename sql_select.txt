@@ -1,0 +1,46 @@
+--select 
+
+select emp_id
+, name
+, birth_date
+from emp
+
+--distinct
+
+select distinct job_title
+, dept_no
+from emp
+
+--alias, binding
+select NAME
+, JOB_TITLE
+, :input as "연차수"
+, 3 as "추석특별연차"
+, :input+ 3 as "특별연차포함연차"
+from emp
+
+
+/*
+[조건]
+기존 가격이 200만원 이상이면 10만원 할인
+기존 가격이 100만원 이상이면  5만원 할인
+기존 가격이  50만원 이상이면  2만원 할인 
+그 외에는 정가로 판매 
+ */
+
+
+select product_name
+, price as 기존가격
+, case 
+	when price >= 2000000 then 100000
+	when price >= 1000000 then 50000
+	when price >= 500000 then 20000
+	else 0
+  end as 할인가격
+,case 
+	when price >= 2000000 then price-100000
+	when price >= 1000000 then price-50000
+	when price >= 500000 then price-20000
+	else price
+  end as 최종판매금액
+from lg_product
