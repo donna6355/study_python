@@ -132,3 +132,56 @@ select a.purchase_date,
    'YYYYMM'
 ) = '202503'
    and a.quantity = 1;
+
+-- outer join
+select *
+  from 회원 a,
+       회원연락처 b
+ where a.회원id = b.회원id (+);
+
+-- 상품을 한번도 구매하지 않은 회원 정보만 추출하시오.
+select a.member_name,
+       a.phone_number
+  from lg_member a,
+       member_purchase b
+ where a.member_id = b.member_id (+)
+   and b.purchase_date is null;
+
+-- 회원이 한번도 구매한 경험이 없는 상품 리스트를 출력하시오.
+select b.product_name,
+       b.price,
+       b.stock_qty
+  from member_purchase a,
+       lg_product b
+ where a.product_id (+) = b.product_id
+   and a.purchase_id is null;
+
+-- other way to extract #1
+-- minus 
+-- A minu B => only A value
+
+select product_id
+  from lg_product
+minus
+select distinct product_id
+  from member_purchase;
+
+-- sub query 
+select *
+  from lg_product
+ where product_id in (
+   select product_id
+     from lg_product
+   minus
+   select distinct product_id
+     from member_purchase
+);
+
+-- other way to extract #2
+select *
+  from lg_product
+ where not exists (
+   select 1
+     from member_purchase
+    where product_id = lg_product.product_id
+);
