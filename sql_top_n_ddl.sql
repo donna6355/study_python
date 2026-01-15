@@ -1,0 +1,60 @@
+-- -- DDL 
+-- -- 테이블 삭제 (테이블이 없을 경우 오류발생은 정상입니다) 
+-- DROP TABLE LOG_AC;           --에어컨 로그 데이터 
+-- DROP TABLE LOG_RF;           --냉장고 로그 데이터 
+
+-- CREATE TABLE LOG_AC (
+--   LOG_NO NUMBER ,  
+--   LG_DEVICE_ID  VARCHAR2(20) NOT NULL,
+--   TS            TIMESTAMP NOT NULL,
+--   AC_MODE       VARCHAR2(20),
+--   SET_TEMP      NUMBER(3,1),
+--   ROOM_TEMP     NUMBER(3,1),
+--   HUMIDITY      NUMBER(3,0),
+--   FAN_SPEED     VARCHAR2(10),                  
+--   POWER_W       NUMBER(7,2),
+--   ENERGY_WH     NUMBER(12,2),
+--   ERROR_CODE    VARCHAR2(20),
+--   PRIMARY KEY (LOG_NO)
+-- ) ; 
+
+-- COMMENT ON TABLE LOG_AC IS '에어컨 텔레메트리 시계열 로그(디바이스·시각 기준 주기 수집 데이터).';
+-- COMMENT ON COLUMN LOG_AC.LOG_NO IS '로그PK' ; 
+-- COMMENT ON COLUMN LOG_AC.LG_DEVICE_ID IS 'THINQ 등록 디바이스 식별자(내부 키, VARCHAR2(20)).';
+-- COMMENT ON COLUMN LOG_AC.TS IS '측정 시각(초 단위 정밀도의 TIMESTAMP).';
+-- COMMENT ON COLUMN LOG_AC.AC_MODE IS '현재 운전 모드: COOL/HEAT/DRY/FAN/AUTO.';
+-- COMMENT ON COLUMN LOG_AC.SET_TEMP IS '사용자 설정 목표 온도(℃, 소수 1자리).';
+-- COMMENT ON COLUMN LOG_AC.ROOM_TEMP IS '실내/흡입부 실제 온도(℃, 소수 1자리).';
+-- COMMENT ON COLUMN LOG_AC.HUMIDITY IS '실내 상대습도(%RH).';
+-- COMMENT ON COLUMN LOG_AC.FAN_SPEED IS '송풍 단계: LOW/MID/HIGH/AUTO.';
+-- COMMENT ON COLUMN LOG_AC.POWER_W IS '순간 전력 사용량(와트, W).';
+-- COMMENT ON COLUMN LOG_AC.ENERGY_WH IS '누적 전력 사용량(와트시, Wh·단조 증가 권장).';
+-- COMMENT ON COLUMN LOG_AC.ERROR_CODE IS '최근 오류/경보 코드(정상이면 NULL).';
+
+
+-- CREATE TABLE LOG_RF (
+--   LOG_NO NUMBER ,  
+--   LG_DEVICE_ID  VARCHAR2(20) NOT NULL,
+--   TS              TIMESTAMP NOT NULL,         
+--   TEMP_FRIDGE     NUMBER(3,1), 
+--   TEMP_FREEZER    NUMBER(3,1), 
+--   DOOR_OPEN       CHAR(1) CHECK (DOOR_OPEN IN ('Y','N')),
+--   COMPRESSOR_RPM  NUMBER(6,0),
+--   POWER_W         NUMBER(7,2),
+--   ENERGY_WH       NUMBER(12,2),
+--   ERROR_CODE      VARCHAR2(20),
+--   PRIMARY KEY (LOG_NO)
+--   ); 
+  
+-- /* ============== LOG_RF ============== */
+-- COMMENT ON TABLE LOG_RF IS '냉장고(김치·무드업 포함) 텔레메트리 시계열 로그.';
+-- COMMENT ON COLUMN LOG_RF.LOG_NO IS '로그PK'  ; 
+-- COMMENT ON COLUMN LOG_RF.LG_DEVICE_ID IS 'THINQ 등록 디바이스 식별자(내부 키, VARCHAR2(20)).';
+-- COMMENT ON COLUMN LOG_RF.TS IS '측정 시각(초 단위 정밀도의 TIMESTAMP).';
+-- COMMENT ON COLUMN LOG_RF.TEMP_FRIDGE IS '냉장실 온도(℃).';
+-- COMMENT ON COLUMN LOG_RF.TEMP_FREEZER IS '냉동실 온도(℃).';
+-- COMMENT ON COLUMN LOG_RF.DOOR_OPEN IS '문 상태: Y=열림, N=닫힘.';
+-- COMMENT ON COLUMN LOG_RF.COMPRESSOR_RPM IS '콤프레서 회전수(RPM).';
+-- COMMENT ON COLUMN LOG_RF.POWER_W IS '순간 전력 사용량(와트, W).';
+-- COMMENT ON COLUMN LOG_RF.ENERGY_WH IS '누적 전력 사용량(와트시, Wh).';
+-- COMMENT ON COLUMN LOG_RF.ERROR_CODE IS '최근 오류/경보 코드(정상이면 NULL).';
