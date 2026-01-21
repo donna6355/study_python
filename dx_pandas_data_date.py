@@ -28,7 +28,7 @@ sample = df["dow"] = df["Date1"].dt.dayofweek
 sample = df["dowName"] = df["Date1"].dt.day_name()
 # print(sample)
 
-
+# 날짜 연산
 df["plus_one"] = df["Date1"] + pd.Timedelta(days=1)
 # print(df.head())
 
