@@ -36,7 +36,7 @@ cat = pd.concat([df1, df4], axis=1)
 # print(cat)
 
 
-# MERGE : based on columns name
+# MERGE : based on row index
 df2_right = df2.drop([1, 3, 5, 7, 9])
 df2_right = df2_right.reset_index(drop=True)
 # print(df2_right)
