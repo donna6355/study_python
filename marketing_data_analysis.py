@@ -131,3 +131,12 @@ print(mau_data.head())
 
 sns.lineplot(data=mau_data, x="event_month", y="user_count")
 plt.show()
+
+
+mean_daily_user = dau_data["user_count"].mean()
+mean_monthly_user = mau_data["user_count"].mean()
+
+dau_mau_ratio = mean_daily_user / mean_monthly_user
+print(mean_daily_user)
+print(mean_monthly_user)
+print(dau_mau_ratio)
