@@ -1,5 +1,6 @@
 import pandas as pd
-import matplotlib.pyplot as plt
+
+# import matplotlib.pyplot as plt
 
 # 가설 : 부모자식과 함께 탑승한 가족 탑승객의 경우 연령대가 낮을 수록 생존률이 높고 연령대가 높을수록 생존률이 낮을 것이다.
 
@@ -14,8 +15,8 @@ parch = df.loc[df["Parch"] > 0]
 dropped_parch = parch.dropna(subset=["Age"])
 print(dropped_parch.info())
 
-plt.hist(dropped_parch["Age"])
-plt.show()
+# plt.hist(dropped_parch["Age"])
+# plt.show()
 
 # plt.boxplot(dropped_parch["Age"])
 # plt.show()
@@ -23,21 +24,28 @@ plt.show()
 
 for survived, label, color in [(0, "사망", "#ff6b6b"), (1, "생존", "#4ecdc4")]:
     subset = dropped_parch[dropped_parch["Survived"] == survived]["Age"]
-    plt.hist(subset, bins=30, alpha=0.6, label=label, color=color, edgecolor="white")
-plt.show()
+    # plt.hist(subset, bins=30, alpha=0.6, label=label, color=color, edgecolor="white")
+# plt.show()
 
 # 5~10세 구간의 비정상적인 사망률 확인
-mask = (
+died_mask = (
     (dropped_parch["Age"] >= 5)
     & (dropped_parch["Age"] <= 10)
     & (dropped_parch["Survived"] == 0)
 )
-dropped_parch.loc[mask]
+surv_mask = (
+    (dropped_parch["Age"] >= 5)
+    & (dropped_parch["Age"] <= 10)
+    & (dropped_parch["Survived"] == 1)
+)
+dropped_parch.loc[died_mask]
 
 sib_sp_mean = dropped_parch["SibSp"].mean()
 print("부모자식 그룹의 평균 형제자매배우자 수:", sib_sp_mean)
-baby_sib_sp_mean = dropped_parch.loc[mask]["SibSp"].mean()
-print("5~10세 사망자 그룹의 평균 형제자매 수:", baby_sib_sp_mean)
+baby_sib_sp_mean = dropped_parch.loc[died_mask]["SibSp"].mean()
+print("5~10세 사망자 그룹의 평균 형제자매 수:", baby_sib_sp_mean)  # 3.1538461538461537
+baby_sib_sp_mean = dropped_parch.loc[surv_mask]["SibSp"].mean()
+print("5~10세 생존자 그룹의 평균 형제자매 수:", baby_sib_sp_mean)  # 0.9
 
 # parch_desc = dropped_parch["Age"].describe()
 # par_std = dropped_parch["Age"].mean()
