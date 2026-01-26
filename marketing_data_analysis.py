@@ -127,16 +127,52 @@ df["event_month"] = df["event_date"].dt.strftime("%Y-%m")
 mau_data = df.groupby("event_month")["user_id"].nunique()
 mau_data = mau_data.reset_index()
 mau_data = mau_data.rename(columns={"user_id": "user_count"})
-print(mau_data.head())
+# print(mau_data.head())
 
-sns.lineplot(data=mau_data, x="event_month", y="user_count")
-plt.show()
+# sns.lineplot(data=mau_data, x="event_month", y="user_count")
+# plt.show()
 
 
-# mean_daily_user = dau_data["user_count"].mean()
-# mean_monthly_user = mau_data["user_count"].mean()
+mean_daily_user = dau_data["user_count"].mean()
+mean_monthly_user = mau_data["user_count"].mean()
 
-# dau_mau_ratio = mean_daily_user / mean_monthly_user
+dau_mau_ratio = mean_daily_user / mean_monthly_user
 # print(mean_daily_user)
 # print(mean_monthly_user)
 # print(dau_mau_ratio)
+
+
+############## COHORT #################
+order_data = df.loc[df["event_type"] == "purchase"]
+
+# first order month per user id
+first_order = order_data.groupby("user_id")["event_month"].min().to_frame()
+first_order = first_order.rename(columns={"event_month": "first_order_month"})
+
+
+order_data = pd.merge(order_data, first_order, on="user_id")
+order_data = order_data.rename(columns={"event_month": "order_month"})
+
+cohorts = order_data.groupby(["first_order_month", "order_month"])["user_id"].nunique()
+
+cohorts = cohorts.reset_index()
+cohorts = cohorts.rename(columns={"user_id": "total_users"})
+
+cohorts["order_month_dt"] = pd.to_datetime(cohorts["order_month"])
+cohorts["first_order_month_dt"] = pd.to_datetime(cohorts["first_order_month"])
+
+cohorts["order_diff"] = cohorts["order_month_dt"].dt.to_period("M").astype(
+    "int"
+) - cohorts["first_order_month_dt"].dt.to_period("M").astype("int")
+
+cols = ["first_order_month", "order_diff", "total_users"]
+cohorts = cohorts[cols]
+# print(cohorts.head())
+cohorts = cohorts.set_index(["first_order_month", "order_diff"])
+# print(cohorts.head())
+cohorts = cohorts.unstack(1)
+print(cohorts)
+
+# divide : 지정한 시리즈를 이용해서 나머지 컬럼들을 나눠준다
+# reorder_rate = cohorts.divide(cohorts[0], axis=0)
+# print(cohorts[0])

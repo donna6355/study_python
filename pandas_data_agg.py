@@ -132,7 +132,7 @@ st = pivot.stack(0)
 st = pivot.stack(1)
 # print(st)
 
-# STACK : rearrange rows[0] into column
+# UNSTACK : rearrange rows[0] into column
 st = pivot.unstack(0)
 # print(st)
 
