@@ -176,3 +176,6 @@ print(cohorts)
 # divide : 지정한 시리즈를 이용해서 나머지 컬럼들을 나눠준다
 # reorder_rate = cohorts.divide(cohorts[0], axis=0)
 # print(cohorts[0])
+# g = sns.heatmap(cohorts, annot=True, fmt=".2%", cmap="Blues")
+# g.figure.set_size_inches(9, 7)
+# plt.show()
