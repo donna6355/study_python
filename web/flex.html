@@ -8,6 +8,27 @@
       hr {
         margin: 40px 0;
       }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px;
+      }
+      nav div {
+        display: flex;
+        gap: 20px;
+      }
+      .logo {
+        width: 100px;
+        background-color: lightgreen;
+      }
+      nav a {
+        text-decoration: none;
+      }
+      .logo:hover {
+        font-weight: bold;
+        color: chocolate;
+      }
       .container {
         display: flex;
         justify-content: space-around;
@@ -30,9 +51,24 @@
       .item p {
         color: gray;
       }
+      @media (min-width: 768px) {
+        p {
+          font-size: 24px;
+          color: darkcyan;
+        }
+      }
     </style>
   </head>
   <body>
+    <nav>
+      <div class="logo">LOGO HERE</div>
+      <div>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+
     <p>default</p>
     <div>
       <div class="item">Item 1</div>
