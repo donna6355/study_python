@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      hr {
+        margin: 40px 0;
+      }
+      .container {
+        display: flex;
+        justify-content: space-around;
+      }
+      .item {
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+      p {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .col {
+        flex-direction: column;
+      }
+      .item h4 {
+        color: blue;
+      }
+      .item p {
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <p>default</p>
+    <div>
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+    </div>
+    <hr />
+    <p>flex</p>
+    <div class="container">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+    </div>
+    <hr />
+    <p>flex - column</p>
+    <div class="container col">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+    </div>
+    <div class="container">
+      <div class="item">
+        Item 1
+        <h4>Heading</h4>
+        <p>Description for Item 1</p>
+      </div>
+    </div>
+  </body>
+</html>

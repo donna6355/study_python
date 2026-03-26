@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cascading Style Sheets</title>
+    <!-- Internal CSS -->
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      header {
+        background-color: lightblue;
+        padding: 1rem;
+      }
+      .highlight {
+        font-family: "Moirai One", system-ui;
+        font-weight: 400;
+        font-style: normal;
+        color: orange;
+        font-size: 36px;
+      }
+      #sample {
+        color: green;
+        font-style: italic;
+      }
+      .box {
+        width: 200px;
+        height: 100px;
+        padding: 20px;
+        border: 2px solid #333;
+        margin: 30px auto;
+        background-color: #eef7fe;
+      }
+      .card {
+        width: 480px;
+        padding: 20px;
+        border: 1px solid lightblue;
+        border-radius: 24px;
+        margin: 20px auto;
+        text-align: center;
+        font-family: "Moirai One", system-ui;
+        font-weight: 400;
+        font-size: 32px;
+      }
+    </style>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Moirai+One&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <!-- inline styles -->
+      <h1 style="color: blueviolet">Cascading Style Sheets</h1>
+    </header>
+    <main>
+      <p class="highlight">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta, deserunt
+        nisi vero ex esse laboriosam nesciunt excepturi modi tempore maiores
+        sint a quia voluptate ut quos ad consequuntur doloremque hic!
+      </p>
+      <p id="sample">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta, deserunt
+        nisi vero ex esse laboriosam nesciunt excepturi modi tempore maiores
+        sint a quia voluptate ut quos ad consequuntur doloremque hic!
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta, deserunt
+        nisi vero ex esse laboriosam nesciunt excepturi modi tempore maiores
+        sint a quia voluptate ut quos ad consequuntur doloremque hic!
+      </p>
+      <div class="box">This is box class.</div>
+      <h3>Profile Card</h3>
+      <div class="card">
+        <img
+          src="https://play-lh.googleusercontent.com/uT9cgFEq8vrGfgmn97Q2kf0i5PCo2h1qR4aONtsjpLVhuatEmuax4_yO2pi3XS7jhRLf=w240-h480-rw"
+          alt="moodeow"
+          width="200px"
+        />
+        <h4>Mir Isaac Kim 김미르</h4>
+        <p>마포구 거주 거실의 맹수</p>
+      </div>
+    </main>
+  </body>
+</html>
