@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript</title>
+    <style>
+      .highlight {
+        background-color: yellow;
+        font-weight: bold;
+        padding: 10px;
+      }
+      .big {
+        font-size: 32px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">Hello World</h1>
+    <p class="desc">JavaScript Class</p>
+    <button id="myBtn">Click me</button>
+    <script>
+      let heading = document.querySelector("h1");
+      let title = document.querySelector("#title");
+      let desc = document.querySelector(".desc");
+      let btn = document.querySelector("#myBtn");
+      console.log(heading);
+      console.log(title);
+      console.log(desc);
+      title.textContent = "Good Night Isaac";
+      btn.addEventListener("click", () => {
+        alert("Button clicked!");
+      });
+      // console.log("HELLO WORLD");
+      // let name = "Isaac";
+      // console.log(name);
+      // name = "Mir Isaac Kim";
+      // console.log(name);
+      // console.log(typeof name);
+      // console.log(typeof 1234);
+      // console.log(typeof true);
+      // console.log(typeof undefined);
+      // console.log(name.length);
+      // console.log(name.toUpperCase());
+      // console.log(name.toLowerCase());
+      // console.log(name.includes("Isaac"));
+      // console.log("Hi there, I am " + name);
+      // console.log(`Hi there, I am ${name}`);
+
+      // let temperature = 30;
+      // if (temperature >= 30) {
+      //   console.log("It is hot outside");
+      // }
+
+      // let age = 5;
+      // if (age > 4) {
+      //   console.log("U r an adult cat!");
+      // } else {
+      //   console.log("U r a kitten!");
+      // }
+
+      // let input = prompt("What is your age?");
+      // let inputAge = Number(input);
+      // if (isNaN(inputAge)) {
+      //   console.log("Please enter a valid number");
+      // } else if (inputAge < 0) {
+      //   console.log("Age cannot be negative");
+      // } else if (inputAge > 120) {
+      //   console.log("Please enter a realistic age");
+      // } else if (inputAge >= 18) {
+      //   console.log("You are an adult!");
+      // } else {
+      //   console.log("You are a minor!");
+      // }
+
+      //desc.classList.add('highlight');
+      //desc.classList.toggle('big');
+      function sayHello(name) {
+        console.log(`Hi, ${name}`);
+      }
+      sayHello("Kkomi");
+
+      const add = (a, b) => a + b;
+      const minus = (a, b) => a - b;
+      const multiply = (a, b) => a * b;
+      const divide = (a, b) => {
+        if (b === 0) return "CAN NOT DIVIDE BY ZERO";
+        return a / b;
+      };
+
+      console.log(`2+3=${add(2, 3)}`);
+      console.log(`5-2=${minus(5, 2)}`);
+      console.log(`4*6=${multiply(4, 6)}`);
+      console.log(`10/2=${divide(10, 2)}`);
+      console.log(`10/0=${divide(10, 0)}`);
+
+      const welcome = (name) => `Dear ${name}, welcome!`;
+      const getTotal = (price, qty) => price * qty;
+      const getMax = (a, b, c) => Math.max(a, b, c);
+
+      console.log(welcome("Isaac"));
+      console.log(getTotal(10, 5));
+      console.log(getMax(3, 7, 2));
+    </script>
+    <!-- <script src="app.js"></script> -->
+  </body>
+</html>
