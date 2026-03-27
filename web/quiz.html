@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <link rel="icon" href="./favicon.ico" />
+    <meta charset="UTF-8" />
+    <title>퀴즈 앱</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #1a1a2e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #eee;
+      }
+
+      .quiz-container {
+        background-color: #16213e;
+        padding: 40px;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 600px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #e94560;
+      }
+
+      #question-count {
+        text-align: right;
+        color: #888;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      #question {
+        font-size: 20px;
+        margin-bottom: 24px;
+        line-height: 1.5;
+      }
+
+      .option-btn {
+        display: block;
+        width: 100%;
+        padding: 14px 20px;
+        margin-bottom: 12px;
+        border: 2px solid #333;
+        border-radius: 10px;
+        background-color: #0f3460;
+        color: #eee;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.2s;
+      }
+
+      .option-btn:hover {
+        border-color: #e94560;
+        background-color: #1a4a7a;
+      }
+
+      .option-btn.correct {
+        background-color: #2ecc71;
+        border-color: #27ae60;
+        color: white;
+      }
+
+      .option-btn.wrong {
+        background-color: #e74c3c;
+        border-color: #c0392b;
+        color: white;
+      }
+
+      .option-btn.disabled {
+        pointer-events: none;
+        opacity: 0.6;
+      }
+
+      #feedback {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 16px 0;
+        min-height: 28px;
+      }
+
+      #next-btn,
+      #restart-btn {
+        display: none;
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        background-color: #e94560;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      #next-btn:hover,
+      #restart-btn:hover {
+        background-color: #c0392b;
+      }
+
+      #result-box {
+        text-align: center;
+      }
+
+      #result-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+
+      #result-score {
+        font-size: 48px;
+        font-weight: bold;
+        color: #e94560;
+        margin: 20px 0;
+      }
+
+      #result-message {
+        font-size: 18px;
+        margin-bottom: 30px;
+        color: #aaa;
+      }
+
+      #restart-btn {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <h1>퀴즈 타임!</h1>
+
+      <div id="quiz-box">
+        <div id="question-count">문제 1 / 5</div>
+        <h2 id="question">문제가 여기에 표시됩니다</h2>
+
+        <div id="options">
+          <button class="option-btn" data-index="0">보기 1</button>
+          <button class="option-btn" data-index="1">보기 2</button>
+          <button class="option-btn" data-index="2">보기 3</button>
+          <button class="option-btn" data-index="3">보기 4</button>
+        </div>
+
+        <div id="feedback"></div>
+        <button id="next-btn">다음 문제</button>
+      </div>
+
+      <div id="result-box" style="display: none">
+        <h2 id="result-title">결과</h2>
+        <p id="result-score"></p>
+        <p id="result-message"></p>
+        <button id="restart-btn">다시 풀기</button>
+      </div>
+    </div>
+
+    <script src="quiz.js"></script>
+    <script>
+      // DOM 요소 선택
+      const questionCount = document.querySelector("#question-count");
+      const questionText = document.querySelector("#question");
+      const optionButtons = document.querySelectorAll(".option-btn");
+      const feedback = document.querySelector("#feedback");
+      const nextBtn = document.querySelector("#next-btn");
+      const quizBox = document.querySelector("#quiz-box");
+      const resultBox = document.querySelector("#result-box");
+      const resultScore = document.querySelector("#result-score");
+      const resultMessage = document.querySelector("#result-message");
+      const restartBtn = document.querySelector("#restart-btn");
+      let idx = 0;
+      let res = 0;
+      optionButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          let selected = btn.dataset.index;
+          const correct = quizData[idx].answer;
+          if (Number(selected) === correct) {
+            res += 1;
+            feedback.textContent = "정답입니다!";
+            btn.classList.add("correct");
+          } else {
+            feedback.textContent = "틀렸습니다!";
+            btn.classList.add("wrong");
+          }
+          nextBtn.style.display = "inline";
+        });
+      });
+      nextBtn.addEventListener("click", () => {
+        nextBtn.style.display = "none";
+        if (idx < quizData.length - 1) {
+          idx += 1;
+          showQuiz(idx);
+        } else {
+          quizBox.style.display = "none";
+          resultBox.style.display = "block";
+          resultScore.textContent = `${res} / ${quizData.length}`;
+          if (res === quizData.length) {
+            resultMessage.textContent = "모든 문제를 맞추셨습니다! 대단해요!";
+          } else if (res >= quizData.length / 2) {
+            resultMessage.textContent =
+              "좋은 결과입니다! 조금 더 노력해보세요!";
+          } else {
+            resultMessage.textContent =
+              "아쉽지만 다음에는 더 잘할 수 있을 거예요!";
+          }
+        }
+      });
+      const showQuiz = (idx) => {
+        questionCount.textContent = `문제 ${idx + 1} / ${quizData.length}`;
+        questionText.textContent = quizData[idx].question;
+        optionButtons.forEach((btn) => {
+          btn.classList.remove("correct", "wrong");
+          btn.textContent = quizData[idx].options[btn.dataset.index];
+        });
+      };
+      showQuiz(idx);
+    </script>
+  </body>
+</html>

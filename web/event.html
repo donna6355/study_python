@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        padding: 100px;
+      }
+      .clicked {
+        background-color: lightblue;
+        padding: 200px;
+      }
+      #btn {
+        background-color: #8e44ad;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #chn {
+        background-color: #3498db;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #counter {
+        font-size: 48px;
+        font-weight: bold;
+      }
+      .btn-group {
+        display: flex;
+        gap: 10px;
+      }
+      button {
+        padding: 15px 30px;
+        font-size: 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        color: white;
+      }
+      #dec {
+        background-color: #e74c3c;
+      }
+      #reset {
+        background-color: #95a5a6;
+      }
+      #inc {
+        background-color: #2ecc71;
+      }
+    </style>
+  </head>
+  <body>
+    <p>This is an event page.</p>
+    <p class="content">Content goes here.</p>
+    <button id="btn">Click me</button>
+    <button id="chn">Change me</button>
+
+    <p id="counter">Loading...</p>
+    <div class="btn-group">
+      <button id="reset">Reset</button>
+      <button id="inc">Increment</button>
+      <button id="dec">Decrement</button>
+    </div>
+    <script>
+      let btn = document.querySelector("#btn");
+      let chn = document.querySelector("#chn");
+      let body = document.querySelector("body");
+      let content = document.querySelector(".content");
+      let counter = document.querySelector("#counter");
+      let reset = document.querySelector("#reset");
+      let inc = document.querySelector("#inc");
+      let dec = document.querySelector("#dec");
+      let count = 0;
+      let greetings = [
+        "김미르는 5살입니다. ",
+        "김미르는 코리안 숏헤어입니다. ",
+        "김미르는 닭가습살을 좋아합니다. ",
+        "김미르는 사냥놀이가 취미입니다.",
+        "김미르는 날이 덥기 전까진 집사 무릎에서 자는걸 좋아합니다. ",
+      ];
+      let idx = 0;
+      btn.addEventListener("click", () => body.classList.toggle("clicked"));
+      chn.addEventListener("click", () => {
+        content.textContent = greetings[idx];
+        idx = (idx + 1) % greetings.length;
+      });
+      const counterFn = (num) => {
+        count = num === 0 ? num : count + num;
+        counter.textContent = count;
+      };
+      counter.textContent = count;
+      reset.addEventListener("click", () => counterFn(0));
+      inc.addEventListener("click", () => counterFn(1));
+      dec.addEventListener("click", () => counterFn(-1));
+    </script>
+  </body>
+</html>
