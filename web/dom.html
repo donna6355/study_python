@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Fruits List</h1>
+    <ul id="fruits-list"></ul>
+    <button id="delete-card">Delete Card</button>
+    <button id="add-card">Add Card</button>
+    <div id="container"></div>
+    <script>
+      let fruits = ["Apple", "Tomato", "Cherry", "mandarin"];
+      let fruitsList = document.querySelector("#fruits-list");
+      let btn = document.querySelector("#add-card");
+      let delBtn = document.querySelector("#delete-card");
+      let html = "";
+      for (let i = 0; i < fruits.length; i++) {
+        html += `<li>${fruits[i]}</li>`;
+      }
+      students = [
+        { name: "Alice", major: "Computer Science" },
+        { name: "Bob", major: "Mathematics" },
+        { name: "Charlie", major: "Physics" },
+      ];
+
+      function addCard(student) {
+        let newDiv = document.createElement("div");
+        newDiv.classList.add("student-card");
+
+        let name = document.createElement("h3");
+        name.textContent = student.name;
+
+        let major = document.createElement("p");
+        major.textContent = student.major;
+
+        newDiv.appendChild(name);
+        newDiv.appendChild(major);
+        return newDiv;
+      }
+      fruitsList.innerHTML = html;
+
+      // 1. 새 요소 만들기
+      let newDiv = document.createElement("div");
+
+      // 2. 내용과 속성 넣기
+      newDiv.textContent = "JavaScript로 만든 div입니다!";
+      // newDiv.classList.add("my-card");
+
+      // 3. 페이지에 붙이기
+      let container = document.querySelector("#container");
+      container.appendChild(newDiv);
+
+      btn.addEventListener("click", () => {
+        students.forEach((student) => {
+          let card = addCard(student);
+          container.appendChild(card);
+        });
+      });
+      delBtn.addEventListener("click", () => {
+        document.querySelectorAll(".student-card").forEach((card) => {
+          card.remove();
+        });
+      });
+    </script>
+  </body>
+</html>
