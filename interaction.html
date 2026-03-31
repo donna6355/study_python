@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        padding: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input type="text" id="myInput" placeholder="여기에 입력하세요" />
+      <p id="output">입력한 내용이 여기에 나타납니다</p>
+      <h3>자기소개를 입력하세요 (최대 100자)</h3>
+      <textarea
+        id="bio"
+        rows="4"
+        cols="50"
+        placeholder="자기소개를 입력하세요"
+      ></textarea>
+      <p><span id="charCount">0</span> / 100 글자</p>
+      <ul id="menu">
+        <li>피자</li>
+        <li>햄버거</li>
+        <li>치킨</li>
+      </ul>
+      <a id="google" href="https://www.google.com">go to Google</a>
+    </div>
+    <script>
+      //input event
+      const myInput = document.querySelector("#myInput");
+      const output = document.querySelector("#output");
+
+      myInput.addEventListener("input", function () {
+        output.textContent = myInput.value;
+      });
+      const bio = document.querySelector("#bio");
+      const charCount = document.querySelector("#charCount");
+
+      bio.addEventListener("input", function () {
+        const length = bio.value.length;
+        charCount.textContent = length;
+
+        if (length > 100) {
+          charCount.style.color = "red";
+        } else {
+          charCount.style.color = "black";
+        }
+      });
+      // keydown event
+      document.addEventListener("keydown", function (event) {
+        console.log("누른 키:", event.key);
+      });
+      // event delegation
+      // event.target
+      const menu = document.querySelector("#menu");
+
+      menu.addEventListener("click", function (event) {
+        console.log("클릭한 메뉴:", event.target.textContent);
+      });
+
+      //event.preventDefault()
+      const link = document.querySelector("#google");
+
+      link.addEventListener("click", function (event) {
+        event.preventDefault(); // 페이지 이동을 막는다!
+        alert("이 링크는 막혀있습니다!");
+      });
+    </script>
+  </body>
+</html>

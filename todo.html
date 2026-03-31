@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="todoInput" placeholder="할 일을 입력하세요" />
+    <ul id="todoList"></ul>
+
+    <form id="signupForm">
+      <input type="text" id="username" placeholder="이름" required />
+      <input type="email" id="email" placeholder="이메일" required />
+      <input
+        type="password"
+        id="password"
+        placeholder="비밀번호"
+        minlength="6"
+        required
+      />
+      <button type="submit">가입하기</button>
+    </form>
+    <script>
+      //TODO
+      const todoInput = document.querySelector("#todoInput");
+      const todoList = document.querySelector("#todoList");
+
+      todoInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          const text = todoInput.value.trim();
+
+          if (text !== "") {
+            const li = document.createElement("li");
+            li.textContent = text;
+            todoList.appendChild(li);
+
+            todoInput.value = ""; // 입력창 비우기
+          }
+        }
+      });
+      // form submit
+      const form = document.querySelector("#signupForm");
+
+      // form.addEventListener("submit", function (event) {
+      //   event.preventDefault(); // 페이지 새로고침을 막는다!
+
+      //   // 여기서부터 우리가 원하는 처리를 한다
+      //   console.log("폼이 제출되었습니다!");
+      // });
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const username = document.querySelector("#username").value.trim();
+        const email = document.querySelector("#email").value.trim();
+        const password = document.querySelector("#password").value;
+
+        console.log("이름:", username);
+        console.log("이메일:", email);
+        console.log("비밀번호:", password);
+
+        // 빈 값 체크
+        if (username === "") {
+          alert("이름을 입력해 주세요!");
+          return; // 여기서 멈춤. 아래 코드는 실행되지 않음
+        }
+
+        if (email === "") {
+          alert("이메일을 입력해 주세요!");
+          return;
+        } else if (!email.includes("@") || !email.includes(".")) {
+          alert("올바른 이메일 형식이 아닙니다!");
+          return;
+        }
+
+        if (password.length < 6) {
+          alert("비밀번호는 6자 이상이어야 합니다!");
+          return;
+        }
+
+        // 여기까지 왔으면 모든 검증을 통과한 것
+        alert("가입 성공! 환영합니다, " + username + "님!");
+      });
+    </script>
+  </body>
+</html>
