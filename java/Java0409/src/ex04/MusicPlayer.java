@@ -54,6 +54,7 @@ public class MusicPlayer {
 				System.out.println(currentIdx+1+". "+musicList.get(currentIdx).toString());
 				player.play(musicList.get(currentIdx).getPath());
 			} else if (menu == 3) {
+				player.stop();
 				System.out.println("====NEXT====");
 				if(currentIdx < musicList.size()-1) {
 					currentIdx++;
@@ -61,9 +62,11 @@ public class MusicPlayer {
 					currentIdx = 0;
 				}
 				System.out.println(currentIdx+1+". "+musicList.get(currentIdx).toString());
-				
+
+				player.play(musicList.get(currentIdx).getPath());
 				
 			} else if (menu == 4) {
+				player.stop();
 				System.out.println("====PREV====");
 				if(currentIdx >0) {
 					currentIdx--;
@@ -71,11 +74,14 @@ public class MusicPlayer {
 					currentIdx = musicList.size()-1;
 				}
 				System.out.println(currentIdx+1+". "+musicList.get(currentIdx).toString());
-				
+
+				player.play(musicList.get(currentIdx).getPath());
 			} else if (menu == 5) {
+				player.stop();
 				System.out.println("====PAUSE====");
 				
 			} else if (menu == 6) {
+				player.stop();
 				System.out.println("====TERMINATED====");
 				break;
 			}
