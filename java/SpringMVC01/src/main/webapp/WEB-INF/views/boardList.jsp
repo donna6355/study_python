@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.lgdx.entity.Board"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +15,16 @@
 <body>
 <h1>Board List with MVC</h1>
 <h3>Mir Isaac Kim's Homepage</h3>
+
+<%
+	//fetch model value
+	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("list");
+	String tBody  = "";	
+	for (int i = 0;i<list.size();i++){
+		Board data = list.get(i);
+		tBody  += "<tr><td>"+data.getIdx()+"</td><td>"+data.getTitle()+"</td><td>"+data.getWriter()+"</td><td>"+data.getIndate()+"</td><td>"+data.getCount()+"</td></tr>"; 	
+	}
+%>
 
 <div class="container">
   <h2>Card Header and Footer</h2>
@@ -30,31 +42,13 @@
     			</tr>
     		</thead>
     		<tbody>
-    			<tr>
-    				<td>1</td>
-    				<td>Chicken night?</td>
-    				<td>Moomin</td>
-    				<td>2026.04.13</td>
-    				<td>97</td>
-    			</tr>
-    			<tr>
-    				<td>2</td>
-    				<td>How will win today?</td>
-    				<td>Kkomi</td>
-    				<td>2024.06.13</td>
-    				<td>197</td>
-    			</tr>
-    			<tr>
-    				<td>3</td>
-    				<td>join our yoga class</td>
-    				<td>Mir</td>
-    				<td>2026.04.13</td>
-    				<td>9227</td>
-    			</tr>
+    			<%=tBody%>
     		</tbody>
     		
     	</table>
-    	<button class="btn btn-primary">Write</button>
+	    <a href="boardInesrtForm.do">
+	    	<button class="btn btn-primary">Write</button>	    
+	    </a>
     </div> 
     <div class="card-footer">LG DX School - </div>
   </div>
