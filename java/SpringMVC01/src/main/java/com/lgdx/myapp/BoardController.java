@@ -12,21 +12,55 @@ import com.lgdx.mapper.BoardMapper;
 
 @Controller
 public class BoardController {
-	
+
 	@Autowired
 	private BoardMapper mapper;
 	
+	@RequestMapping("/boardUpdate.do")
+	public String boardUpdate(Board vo) {
+		System.out.println("boardUpdate.do called");
+		System.out.println(vo.toString());
+		mapper.boardUpdate(vo);
+		return "redirect:/boardList.do";
+	}
+
+	@RequestMapping("/boardUpdateForm.do")
+	public String boardUpdateForm(int idx, Model model) {
+		Board vo = mapper.boardContent(idx);
+		System.out.println(vo.toString());
+		model.addAttribute("vo", vo);
+		return "boardUpdateForm";
+	} 
+	
+	@RequestMapping("/boardDelete.do")
+	public String boardDelete(int idx) {
+		System.out.println("boardDelete.do called #"+idx);
+		mapper.deleteContent(idx);
+		return "redirect:/boardList.do";
+	}
+	
+	
+	@RequestMapping("/boardContent.do")
+	public String boardContent(int idx, Model model) {
+		System.out.println("boardContent.do called #"+idx);
+		Board vo = mapper.boardContent(idx);
+		System.out.println(vo.toString());
+		model.addAttribute("vo", vo);
+		return "boardContent";
+	}
 	@RequestMapping("/boardInsert.do")
 	public String boardInsert(Board vo) {
 		System.out.println(vo.toString());
-		return "";
+		mapper.boardInsert(vo);
+		
+		return "redirect:/boardList.do";
 	}
 
 	@RequestMapping("/boardInesrtForm.do")
 	public String boardInsertForm(Model model) {
 		return "boardInsertForm";
 	}
-	
+
 	@RequestMapping("/boardList.do")
 	public String boardList(Model model) {
 //		System.out.println("Somebody is comming");
@@ -42,13 +76,12 @@ public class BoardController {
 //		list.add(vo3);
 //		list.add(vo4);
 //		list.add(vo5);
-		
+
 		ArrayList<Board> list = mapper.boardList();
-		
-		//keep ArrayList in model
-		model.addAttribute("list",list);
+
+		// keep ArrayList in model
+		model.addAttribute("list", list);
 		return "boardList";
 	}
-	
 
 }

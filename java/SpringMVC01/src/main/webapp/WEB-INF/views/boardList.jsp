@@ -22,7 +22,7 @@
 	String tBody  = "";	
 	for (int i = 0;i<list.size();i++){
 		Board data = list.get(i);
-		tBody  += "<tr><td>"+data.getIdx()+"</td><td>"+data.getTitle()+"</td><td>"+data.getWriter()+"</td><td>"+data.getIndate()+"</td><td>"+data.getCount()+"</td></tr>"; 	
+		tBody  += "<tr><td>"+data.getIdx()+"</td><td><a href='boardContent.do?idx="+data.getIdx()+"'>"+data.getTitle()+"</a></td><td>"+data.getWriter()+"</td><td>"+data.getIndate()+"</td><td>"+data.getCount()+"</td></tr>"; 	
 	}
 %>
 
