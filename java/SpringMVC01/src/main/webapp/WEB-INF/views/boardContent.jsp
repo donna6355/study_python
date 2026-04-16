@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.lgdx.entity.Board"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="com.lgdx.entity.Member"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +23,7 @@
 	Board vo = (Board) request.getAttribute("vo");
 	%>
 	<div class="container">
+		<jsp:include page="./header.jsp"></jsp:include>
 		<h2>Mir Isaac Kim's Homepage</h2>
 		<div class="card">
 			<div class="card-header">Board Detail</div>
@@ -36,20 +39,36 @@
 					</tr>
 					<tr>
 						<td>Content</td>
-						<td><%=vo.getContent()%></td>
+						<td>
+						
+						
+						<% if(vo.getFilepath() != null) {%>
+						<img width="100%" src="resources/images/<%=vo.getFilepath()%>"><br/>
+						<%} %>
+						
+						<%=vo.getContent()%></td>
 					</tr>
 					<tr>
-						<td align="center" colspan="2">
-							<a href="boardList.do">
+						<td align="center" colspan="2"><a href="boardList.do">
 								<button class="btn btn-info" type="button">Return</button>
-							</a> 
-							<a href="boardUpdateForm.do?idx=<%=vo.getIdx()%>"><button
-									type="button" class="btn btn-danger">Edit</button>
-							</a>
-							<a href="boardDelete.do?idx=<%=vo.getIdx()%>"><button
-									type="button" class="btn btn-warning">Delete</button>
-							</a>
-						</td>
+						</a>
+						
+						<% 
+						Member info = (Member)session.getAttribute("info");
+						if(info == null || !info.getId().equals(vo.getId())){ %>
+							<button disabled="disabled" type="button" class="btn btn-danger">Edit</button>
+							<button disabled="disabled" type="button" class="btn btn-warning">Delete</button> 
+							
+							<%}else{ %>
+							<a
+							href="boardUpdateForm.do?idx=<%=vo.getIdx()%>"><button
+									type="button" class="btn btn-danger">Edit</button> </a> <a
+							href="boardDelete.do?idx=<%=vo.getIdx()%>"><button
+									type="button" class="btn btn-warning">Delete</button> </a>
+									
+							<%} %>
+									</td>
+									
 					</tr>
 				</table>
 			</div>

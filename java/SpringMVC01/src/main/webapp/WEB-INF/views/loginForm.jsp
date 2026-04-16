@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.lgdx.entity.Board"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="com.lgdx.entity.Member"%>
-<%@ page import="javax.servlet.http.HttpSession"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,39 +20,27 @@
 
 	<div class="container">
 		<jsp:include page="./header.jsp"></jsp:include>
-		<h2>Leave Measge at Mir Isaac Kim's Homepage</h2>
 		<div class="card">
-			<div class="card-header">Board Editing</div>
+			<div class="card-header">LOGIN</div>
 			<div class="card-body">
-				<form action="boardInsert.do" method="post" enctype="multipart/form-data">
-						<% Member info = (Member)session.getAttribute("info"); %>
-					<input type="hidden" name="id" value="<%=info.getId()%>">
+				<form action="login.do" method="post">
 					<table class="table table-bordered table-hover">
 						<tr>
-							<td>Title</td>
-							<td><input name="title" type="text" class="form-control"></td>
+							<td>ID</td>
+							<td><input name="id" type="text" class="form-control" paceholder="please input id"></td>
 						</tr>
 						<tr>
-							<td>File</td>
-							<td><input name="filepath" type="file" class="form-control"></td>
+							<td>PASSWORD</td>
+							<td><input name="pw" type="password" class="form-control" paceholder="please input password"></td>
 						</tr>
-						<tr>
-							<td>Writer</td>
-							<td><input readonly value="<%=info.getNick() %>" name="writer" type="text" class="form-control"></td>
-						</tr>
-						<tr>
-							<td>Content</td>
-							<td><textarea name="content" class="form-control" cols=""
-									rows="7"></textarea></td>
-						</tr>
-					
 						<tr>
 							<td align="center" colspan="2"><a href="boardList.do">
 									<button class="btn btn-info" type="button">Cancel</button>
 							</a>
 								<button type="reset" class="btn btn-danger">Reset</button>
-								<button type="submit" class="btn btn-warning">Write</button></td>
+								<button type="submit" class="btn btn-warning">Login</button></td>
 						</tr>
+						
 					</table>
 				</form>
 			</div>

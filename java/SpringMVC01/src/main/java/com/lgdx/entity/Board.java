@@ -14,5 +14,7 @@ public class Board {
 	private String writer;
 	private String indate;
 	private int count;
+	private String id;
+	private String filepath;
 	
 }

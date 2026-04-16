@@ -13,7 +13,7 @@ import com.lgdx.entity.Board;
 @Mapper
 public interface BoardMapper {
 	
-	@Insert("INSERT INTO BOARD(TITLE, CONTENT, WRITER) VALUES(#{title}, #{content}, #{writer})")
+	@Insert("INSERT INTO BOARD(TITLE, CONTENT, WRITER, ID, FILEPATH) VALUES(#{title}, #{content}, #{writer}, #{id}, #{filepath})")
 	public abstract void boardInsert(Board vo);
 	
 	@Select("SELECT * FROM BOARD ORDER BY INDATE DESC")

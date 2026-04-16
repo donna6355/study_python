@@ -20,6 +20,7 @@
 	Board vo = (Board) request.getAttribute("vo");
 	%>
 	<div class="container">
+		<jsp:include page="./header.jsp"></jsp:include>
 		<h2>Leave Measge at Mir Isaac Kim's Homepage</h2>
 		<div class="card">
 			<div class="card-header">Board Writing</div>
@@ -33,7 +34,7 @@
 						</tr>
 						<tr>
 							<td>Writer</td>
-							<td><input value="<%=vo.getWriter() %>" name="writer" type="text" class="form-control"></td>
+							<td><input readonly value="<%=vo.getWriter() %>" name="writer" type="text" class="form-control"></td>
 						</tr>
 						<tr>
 							<td>Content</td>

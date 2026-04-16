@@ -1,6 +1,9 @@
 package com.lgdx.myapp;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,13 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lgdx.entity.Board;
 import com.lgdx.mapper.BoardMapper;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	private BoardMapper mapper;
-	
+
 	@RequestMapping("/boardUpdate.do")
 	public String boardUpdate(Board vo) {
 		System.out.println("boardUpdate.do called");
@@ -30,29 +35,55 @@ public class BoardController {
 		System.out.println(vo.toString());
 		model.addAttribute("vo", vo);
 		return "boardUpdateForm";
-	} 
-	
+	}
+
 	@RequestMapping("/boardDelete.do")
 	public String boardDelete(int idx) {
-		System.out.println("boardDelete.do called #"+idx);
+		System.out.println("boardDelete.do called #" + idx);
 		mapper.deleteContent(idx);
 		return "redirect:/boardList.do";
 	}
-	
-	
+
 	@RequestMapping("/boardContent.do")
 	public String boardContent(int idx, Model model) {
-		System.out.println("boardContent.do called #"+idx);
+		System.out.println("boardContent.do called #" + idx);
 		Board vo = mapper.boardContent(idx);
 		System.out.println(vo.toString());
 		model.addAttribute("vo", vo);
 		return "boardContent";
 	}
+
 	@RequestMapping("/boardInsert.do")
-	public String boardInsert(Board vo) {
+	public String boardInsert(HttpServletRequest request) {
+		// file upload object
+		MultipartRequest multi = null;
+		int maxSize = 10000 * 1024;
+		String savePath = request.getRealPath("resources/images");
+		System.out.println("saved path here" + savePath);
+		String encoding = "UTF-8";
+		DefaultFileRenamePolicy fr = new DefaultFileRenamePolicy();
+
+		try {
+
+			multi = new MultipartRequest(request, savePath, maxSize, encoding, fr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String title = multi.getParameter("title");
+		String writer = multi.getParameter("writer");
+		String content = multi.getParameter("content");
+		String id = multi.getParameter("id");
+		String filepath = multi.getFilesystemName("filepath");
+		
+		Board vo = new Board();
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setId(id);
+		vo.setFilepath(filepath);
+		vo.setWriter(writer);
 		System.out.println(vo.toString());
 		mapper.boardInsert(vo);
-		
+
 		return "redirect:/boardList.do";
 	}
 
