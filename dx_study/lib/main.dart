@@ -1,13 +1,14 @@
 // import 'tanos.dart';
+// import 'chatgpt.dart';
 
-import 'chatgpt.dart';
+import 'mbti.dart';
 
 import 'package:flutter/material.dart';
 
 void main() {
   // print("Hello, Isaac:)");
   // runApp(TanosGame());
-  runApp(Chatgpt());
+  runApp(Mbti());
 }
 
 class MyHome extends StatelessWidget {
