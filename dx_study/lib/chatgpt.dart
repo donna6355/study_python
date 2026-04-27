@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+
+const _key = String.fromEnvironment("gemini");
 
 class Chatgpt extends StatefulWidget {
   const Chatgpt({super.key});
@@ -9,8 +12,15 @@ class Chatgpt extends StatefulWidget {
 
 class _ChatgptState extends State<Chatgpt> {
   final TextEditingController _controller = TextEditingController();
+  Gemini? gemini;
 
   ChatRoom _room = ChatRoom(chats: [], createdAt: DateTime.now());
+  @override
+  void initState() {
+    Gemini.init(apiKey: _key);
+    gemini = Gemini.instance;
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -44,6 +54,7 @@ class _ChatgptState extends State<Chatgpt> {
                               ? Alignment.centerRight
                               : Alignment.centerLeft,
                           child: Container(
+                            constraints: BoxConstraints(maxWidth: 300),
                             margin: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 8,
@@ -81,13 +92,29 @@ class _ChatgptState extends State<Chatgpt> {
     );
   }
 
-  void onSubmit() {
+  void onSubmit() async {
     String message = _controller.text;
     setState(() {
       _room.chats.add(
         ChatMessage(isMe: true, text: message, sentAt: DateTime.now()),
       );
     });
+    gemini
+        ?.prompt(parts: [Part.text(message)])
+        .then((val) {
+          setState(() {
+            _room.chats.add(
+              ChatMessage(
+                isMe: false,
+                text: val?.output ?? "FAILED",
+                sentAt: DateTime.now(),
+              ),
+            );
+          });
+        })
+        .catchError((e) {
+          debugPrint('chat gpt error $e');
+        });
     _controller.clear();
   }
 }
