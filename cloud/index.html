@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>YUNIQ Diary - Day 1</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        padding: 80px;
+      }
+      #status {
+        font-size: 32px;
+        color: #888;
+      }
+      #status.success {
+        color: #2e7d32;
+      }
+      #project-id {
+        color: #555;
+        margin-top: 12px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="status">로딩 중...</h1>
+    <p id="project-id"></p>
+
+    <!-- Firebase SDK 연결 코드는 Step 5에서 추가 -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyC96aJz6wRh-Zb1FYK7T3PCdmrMDzGQs9k",
+        authDomain: "dx-diary.firebaseapp.com",
+        projectId: "dx-diary",
+        storageBucket: "dx-diary.firebasestorage.app",
+        messagingSenderId: "517754453674",
+        appId: "1:517754453674:web:9b85fb1fe31b9287c21ad3",
+        measurementId: "G-NE8P47B8JE",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+
+      // ⬇️ 여기부터 우리가 추가하는 코드 — 화면 + 콘솔에 "연결 성공" 표시
+      const status = document.getElementById("status");
+      status.textContent = "Firebase 연결 성공!";
+      status.classList.add("success");
+
+      document.getElementById("project-id").textContent =
+        "Project ID: " + firebaseConfig.projectId;
+
+      console.log("✅ Firebase 연결 성공!", app);
+    </script>
+  </body>
+</html>
