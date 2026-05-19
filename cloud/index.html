@@ -2,64 +2,84 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <title>YUNIQ Diary - Day 1</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        text-align: center;
-        padding: 80px;
-      }
-      #status {
-        font-size: 32px;
-        color: #888;
-      }
-      #status.success {
-        color: #2e7d32;
-      }
-      #project-id {
-        color: #555;
-        margin-top: 12px;
-        font-size: 14px;
-      }
-    </style>
+    <title>YUNIQ Diary - Day 2</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <h1 id="status">로딩 중...</h1>
     <p id="project-id"></p>
 
-    <!-- Firebase SDK 연결 코드는 Step 5에서 추가 -->
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
+    <!-- 로그인 전 영역 -->
+    <div id="logged-out-area">
+      <!-- 회원가입 폼 -->
+      <h2>회원가입</h2>
+      <form id="signup-form">
+        <input type="email" id="signup-email" placeholder="이메일" required />
+        <input
+          type="password"
+          id="signup-password"
+          placeholder="비밀번호 (6자 이상)"
+          required
+        />
+        <button type="submit">가입</button>
+      </form>
 
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        apiKey: "AIzaSyC96aJz6wRh-Zb1FYK7T3PCdmrMDzGQs9k",
-        authDomain: "dx-diary.firebaseapp.com",
-        projectId: "dx-diary",
-        storageBucket: "dx-diary.firebasestorage.app",
-        messagingSenderId: "517754453674",
-        appId: "1:517754453674:web:9b85fb1fe31b9287c21ad3",
-        measurementId: "G-NE8P47B8JE",
-      };
+      <!-- 로그인 폼 -->
+      <h2>로그인</h2>
+      <form id="login-form">
+        <input type="email" id="login-email" placeholder="이메일" required />
+        <input
+          type="password"
+          id="login-password"
+          placeholder="비밀번호"
+          required
+        />
+        <button type="submit">로그인</button>
+      </form>
 
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
+      <!-- 비번 재설정 -->
+      <p>
+        <a href="#" id="reset-password-link">비밀번호 잊으셨나요?</a>
+      </p>
 
-      // ⬇️ 여기부터 우리가 추가하는 코드 — 화면 + 콘솔에 "연결 성공" 표시
-      const status = document.getElementById("status");
-      status.textContent = "Firebase 연결 성공!";
-      status.classList.add("success");
+      <!-- 구글 로그인 -->
+      <h2>또는 구글로 로그인</h2>
+      <button id="google-login-btn">구글로 로그인</button>
+    </div>
 
-      document.getElementById("project-id").textContent =
-        "Project ID: " + firebaseConfig.projectId;
+    <!-- 로그인 후 영역 -->
+    <div id="logged-in-area" style="display: none">
+      <h2>환영합니다</h2>
+      <img
+        id="user-photo"
+        width="60"
+        style="border-radius: 50%; display: none; margin: 0 auto"
+        referrerpolicy="no-referrer"
+        alt="프로필"
+      />
+      <p id="user-name"></p>
+      <p id="user-email"></p>
 
-      console.log("✅ Firebase 연결 성공!", app);
-    </script>
+      <!-- 이메일 인증 안내 (인증 미완료 시만 표시) -->
+      <div
+        id="verify-notice"
+        style="
+          display: none;
+          padding: 12px;
+          background: #fff8e1;
+          border-left: 4px solid #f9a825;
+          margin: 16px auto;
+          max-width: 400px;
+          text-align: left;
+        "
+      >
+        <p>메일함을 확인하고 인증 링크를 클릭해주세요.</p>
+        <button id="resend-verification-btn">인증 메일 재전송</button>
+      </div>
+
+      <button id="logout-btn">로그아웃</button>
+    </div>
+
+    <script type="module" src="main.js"></script>
   </body>
 </html>

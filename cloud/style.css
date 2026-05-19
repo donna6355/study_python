@@ -1,0 +1,52 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  padding: 80px;
+}
+#status {
+  font-size: 32px;
+  color: #888;
+}
+#status.success {
+  color: #2e7d32;
+}
+#project-id {
+  color: #555;
+  margin-top: 12px;
+  font-size: 14px;
+}
+form {
+  margin: 16px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 320px;
+}
+input {
+  padding: 8px;
+  font-size: 14px;
+}
+button {
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+h2 {
+  margin-top: 24px;
+  font-size: 18px;
+}
+#google-login-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+#google-login-btn::before {
+  content: "G";
+  color: #4285f4;
+  font-weight: bold;
+}
