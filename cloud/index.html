@@ -78,6 +78,34 @@
       </div>
 
       <button id="logout-btn">로그아웃</button>
+
+      <h2>일기 쓰기</h2>
+      <form id="diary-form">
+        <input type="text" id="diary-title" placeholder="제목" required />
+        <textarea
+          id="diary-content"
+          placeholder="오늘 있었던 일을 적어보세요"
+          rows="4"
+          required
+        ></textarea>
+        <button type="submit">일기 저장</button>
+      </form>
+
+      <h2>내 일기 목록</h2>
+      <form id="search-form" style="margin-bottom: 12px">
+        <input
+          type="text"
+          id="search-keyword"
+          placeholder="제목으로 검색"
+          style="width: 60%"
+        />
+        <button type="submit">검색</button>
+        <button type="button" id="search-reset">초기화</button>
+      </form>
+      <div id="diary-list"></div>
+      <button id="load-more-btn" style="margin-top: 12px; display: none">
+        더 보기
+      </button>
     </div>
 
     <script type="module" src="main.js"></script>

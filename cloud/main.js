@@ -10,6 +10,21 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.13.0/f
 import { signOut } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 import { sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+  serverTimestamp,
+  query,
+  where,
+  orderBy,
+  limit,
+  startAfter,
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 // ─── Firebase 초기화 ──────────────────────────────────────
 const firebaseConfig = {
@@ -25,6 +40,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // 로그인 상태에 따라 화면 자동 분기
 onAuthStateChanged(auth, (user) => {
@@ -56,6 +72,8 @@ onAuthStateChanged(auth, (user) => {
     }
 
     console.log("로그인됨:", user.email, "인증 여부:", user.emailVerified);
+
+    loadDiaries();
   } else {
     // 로그아웃 상태
     loggedOutArea.style.display = "block";
@@ -209,3 +227,265 @@ document
       }
     }
   });
+
+// 일기 저장 처리
+const diaryForm = document.getElementById("diary-form");
+
+diaryForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const title = document.getElementById("diary-title").value;
+  const content = document.getElementById("diary-content").value;
+
+  // 로그인 상태 확인
+  const user = auth.currentUser;
+  if (!user) {
+    alert("로그인 후 사용해주세요.");
+    return;
+  }
+
+  try {
+    const docRef = await addDoc(collection(db, "diaries"), {
+      title: title,
+      content: content,
+      userId: user.uid,
+      createdAt: serverTimestamp(),
+    });
+
+    console.log("저장된 도큐먼트 ID:", docRef.id);
+    alert("일기가 저장됐어요!");
+
+    // 폼 초기화
+    diaryForm.reset();
+
+    // 목록 다시 불러오기 (Step 5에서 만들 함수)
+    loadDiaries();
+  } catch (error) {
+    console.error("저장 실패:", error.code, error.message);
+    alert("저장 실패: " + error.message);
+  }
+});
+
+// 일기 목록 불러오기 — 본인 것만 + 최신순 + 3개씩
+let lastVisibleDoc = null; // 페이지네이션용 (Step 8)
+
+async function loadDiaries() {
+  const diaryList = document.getElementById("diary-list");
+  diaryList.innerHTML = "불러오는 중...";
+
+  const user = auth.currentUser;
+  if (!user) {
+    diaryList.innerHTML = "<p>로그인이 필요합니다.</p>";
+    return;
+  }
+
+  try {
+    const q = query(
+      collection(db, "diaries"),
+      where("userId", "==", user.uid),
+      orderBy("createdAt", "desc"),
+      limit(3)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      diaryList.innerHTML = "<p>아직 작성한 일기가 없어요.</p>";
+      lastVisibleDoc = null;
+      return;
+    }
+
+    diaryList.innerHTML = "";
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const card = renderDiaryCard(docSnap.id, data);
+      diaryList.appendChild(card);
+    });
+
+    // 마지막 도큐먼트 기억 (Step 8에서 사용)
+    lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
+    // 일기가 limit과 같은 개수면 더 있을 가능성 → "더 보기" 버튼 표시
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    if (snapshot.size === 3) {
+      loadMoreBtn.style.display = "inline-block";
+    } else {
+      loadMoreBtn.style.display = "none";
+    }
+  } catch (error) {
+    console.error("목록 불러오기 실패:", error.code, error.message);
+
+    if (error.code === "failed-precondition") {
+      diaryList.innerHTML = `
+        <p>인덱스가 필요해요. 브라우저 콘솔(F12)을 열고 에러 메시지의 링크를 클릭해서 인덱스를 만든 후 다시 시도하세요.</p>
+      `;
+    } else {
+      diaryList.innerHTML = `<p>불러오기 실패: ${error.message}</p>`;
+    }
+  }
+}
+
+// 더 보기 — 다음 3개 추가 로드
+document.getElementById("load-more-btn").addEventListener("click", async () => {
+  const user = auth.currentUser;
+  if (!user || !lastVisibleDoc) return;
+
+  const diaryList = document.getElementById("diary-list");
+  const loadMoreBtn = document.getElementById("load-more-btn");
+
+  try {
+    const q = query(
+      collection(db, "diaries"),
+      where("userId", "==", user.uid),
+      orderBy("createdAt", "desc"),
+      startAfter(lastVisibleDoc),
+      limit(3)
+    );
+
+    const snapshot = await getDocs(q);
+
+    snapshot.forEach((docSnap) => {
+      const card = renderDiaryCard(docSnap.id, docSnap.data());
+      diaryList.appendChild(card);
+    });
+
+    if (snapshot.size < 3) {
+      loadMoreBtn.style.display = "none"; // 더 가져올 거 없음
+    } else {
+      lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
+    }
+  } catch (error) {
+    console.error("더 보기 실패:", error.code, error.message);
+    alert("더 보기 실패: " + error.message);
+  }
+});
+
+// 카드 한 장 만들기
+function renderDiaryCard(id, data) {
+  const card = document.createElement("div");
+  card.className = "diary-card";
+
+  const createdAt = data.createdAt?.toDate
+    ? data.createdAt.toDate().toLocaleString("ko-KR")
+    : "방금 저장됨";
+
+  card.innerHTML = `
+    <h3>${data.title}</h3>
+    <p>${data.content}</p>
+    <div class="meta">${createdAt}</div>
+    <div class="actions">
+      <button data-id="${id}" class="edit-btn">수정</button>
+      <button data-id="${id}" class="delete-btn">삭제</button>
+    </div>
+  `;
+
+  return card;
+}
+// 목록 영역 클릭 이벤트 — 삭제·수정 버튼 처리
+document.getElementById("diary-list").addEventListener("click", async (e) => {
+  // 삭제 버튼
+  if (e.target.classList.contains("delete-btn")) {
+    const id = e.target.dataset.id;
+    if (!confirm("정말 삭제할까요? 복구할 수 없어요.")) return;
+
+    try {
+      await deleteDoc(doc(db, "diaries", id));
+      alert("삭제됐어요.");
+      loadDiaries();
+    } catch (error) {
+      console.error("삭제 실패:", error.code, error.message);
+      alert("삭제 실패: " + error.message);
+    }
+  }
+
+  // 수정 버튼
+  if (e.target.classList.contains("edit-btn")) {
+    const id = e.target.dataset.id;
+
+    // 현재 카드에서 제목·본문 읽기
+    const card = e.target.closest(".diary-card");
+    const currentTitle = card.querySelector("h3").textContent;
+    const currentContent = card.querySelector("p").textContent;
+
+    const newTitle = prompt("새 제목:", currentTitle);
+    if (newTitle === null) return; // 취소
+
+    const newContent = prompt("새 본문:", currentContent);
+    if (newContent === null) return;
+
+    try {
+      await updateDoc(doc(db, "diaries", id), {
+        title: newTitle,
+        content: newContent,
+      });
+      alert("수정됐어요.");
+      loadDiaries();
+    } catch (error) {
+      console.error("수정 실패:", error.code, error.message);
+      alert("수정 실패: " + error.message);
+    }
+  }
+});
+// 제목 키워드로 검색
+async function searchDiaries(keyword) {
+  const diaryList = document.getElementById("diary-list");
+  diaryList.innerHTML = "검색 중...";
+  // ↓↓↓ 추가 ↓↓↓
+  const loadMoreBtn = document.getElementById("load-more-btn");
+  if (loadMoreBtn) loadMoreBtn.style.display = "none";
+  // ↑↑↑
+
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    // Firestore는 부분 문자열 검색을 직접 지원하지 않음 → 시작 문자열 매칭만
+    const q = query(
+      collection(db, "diaries"),
+      where("userId", "==", user.uid),
+      where("title", ">=", keyword),
+      where("title", "<=", keyword + ""),
+      orderBy("title", "asc"),
+      limit(20)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      diaryList.innerHTML = "<p>일치하는 일기가 없어요.</p>";
+      return;
+    }
+
+    diaryList.innerHTML = "";
+    snapshot.forEach((docSnap) => {
+      const card = renderDiaryCard(docSnap.id, docSnap.data());
+      diaryList.appendChild(card);
+    });
+  } catch (error) {
+    console.error("검색 실패:", error.code, error.message);
+    if (error.code === "failed-precondition") {
+      diaryList.innerHTML = `
+        <p>검색용 인덱스가 필요해요. F12 콘솔의 링크를 클릭해서 만든 후 재시도.</p>
+      `;
+    } else {
+      diaryList.innerHTML = `<p>검색 실패: ${error.message}</p>`;
+    }
+  }
+}
+
+// 검색 폼 이벤트
+document.getElementById("search-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const keyword = document.getElementById("search-keyword").value.trim();
+  if (!keyword) {
+    alert("검색어를 입력해주세요.");
+    return;
+  }
+  searchDiaries(keyword);
+});
+
+// 초기화 — 전체 목록 복원
+document.getElementById("search-reset").addEventListener("click", () => {
+  document.getElementById("search-keyword").value = "";
+  loadDiaries();
+});
