@@ -2,10 +2,16 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <title>YUNIQ Diary - Day 2</title>
+    <title>Mir Isaac Kim Diary</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <img
+      src="https://firebasestorage.googleapis.com/v0/b/dx-diary.firebasestorage.app/o/diaries%2FvJUZ2I6ypfYVFcEhEQ5lEQoXIR42%2F1779327067203_isaac_cover.jpeg?alt=media&token=06829803-6b96-4049-bfb3-4232b08c0891"
+      alt="welcome"
+      width="400"
+    />
+    <h1>어서와~</h1>
     <h1 id="status">로딩 중...</h1>
     <p id="project-id"></p>
 
@@ -111,6 +117,21 @@
       <button id="load-more-btn" style="margin-top: 12px; display: none">
         더 보기
       </button>
+      <h2>⭐ 첫인상 보드</h2>
+      <p class="impressions-hint">누구나 (로그인 후) 글 남길 수 있어요</p>
+
+      <form id="impression-form">
+        <textarea
+          id="impression-text"
+          placeholder="첫인상이나 응원 메시지를 한 줄..."
+          rows="2"
+          required
+        ></textarea>
+        <button type="submit">남기기</button>
+      </form>
+
+      <h3>받은 첫인상</h3>
+      <div id="impression-list"></div>
     </div>
 
     <script type="module" src="main.js"></script>

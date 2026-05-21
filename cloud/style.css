@@ -118,3 +118,48 @@ h2 {
   border-radius: 8px;
   margin: 8px 0;
 }
+.impressions-hint {
+  font-size: 13px;
+  color: #888;
+  margin: 4px 0 12px 0;
+}
+#impression-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 400px;
+  margin: 12px auto;
+}
+#impression-form textarea {
+  padding: 8px;
+  font-size: 14px;
+  resize: vertical;
+}
+#impression-list {
+  margin: 16px auto;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.impression-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff8e1;
+  text-align: left;
+}
+.impression-card .text {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.impression-card .from {
+  font-size: 12px;
+  color: #888;
+}
+.impression-card .delete-btn {
+  margin-top: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}

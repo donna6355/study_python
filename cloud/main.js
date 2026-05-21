@@ -81,6 +81,7 @@ onAuthStateChanged(auth, (user) => {
     console.log("로그인됨:", user.email, "인증 여부:", user.emailVerified);
 
     loadDiaries();
+    loadImpressions();
   } else {
     // 로그아웃 상태
     loggedOutArea.style.display = "block";
@@ -550,3 +551,115 @@ document.getElementById("diary-photo").addEventListener("change", (e) => {
   preview.src = url;
   preview.style.display = "block";
 });
+
+// ─── 첫인상 보드 (lab11) ────────────────────────────────
+
+// 첫인상 글 작성
+document
+  .getElementById("impression-form")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const user = auth.currentUser;
+    if (!user) {
+      alert("로그인 후 사용해주세요.");
+      return;
+    }
+
+    const text = document.getElementById("impression-text").value.trim();
+    if (!text) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "impressions"), {
+        text: text,
+        fromName: user.displayName || user.email.split("@")[0],
+        fromEmail: user.email,
+        userId: user.uid,
+        createdAt: serverTimestamp(),
+      });
+      e.target.reset();
+      loadImpressions();
+    } catch (error) {
+      console.error("저장 실패:", error.code, error.message);
+      alert("저장 실패: " + error.message);
+    }
+  });
+
+// 받은 첫인상 목록 불러오기
+async function loadImpressions() {
+  const list = document.getElementById("impression-list");
+  list.innerHTML = "불러오는 중...";
+
+  try {
+    // 전체 impressions 가져오기 (where 없음 — 누구 글이든)
+    const q = query(
+      collection(db, "impressions"),
+      orderBy("createdAt", "desc"),
+      limit(20)
+    );
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      list.innerHTML =
+        "<p>아직 받은 첫인상이 없어요. 조원에게 도메인을 공유해보세요.</p>";
+      return;
+    }
+
+    const currentUid = auth.currentUser?.uid;
+
+    list.innerHTML = "";
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const createdAt = data.createdAt?.toDate
+        ? data.createdAt.toDate().toLocaleString("ko-KR")
+        : "방금 남김";
+
+      // 본인 글이면 삭제 버튼 표시
+      const deleteBtn =
+        data.userId === currentUid
+          ? `<button data-id="${docSnap.id}" class="delete-btn">삭제</button>`
+          : "";
+
+      const card = document.createElement("div");
+      card.className = "impression-card";
+      card.innerHTML = `
+        <div class="text">${escapeHtml(data.text)}</div>
+        <div class="from">${escapeHtml(data.fromName)} · ${createdAt}</div>
+        ${deleteBtn}
+      `;
+      list.appendChild(card);
+    });
+  } catch (error) {
+    console.error("불러오기 실패:", error.code, error.message);
+    list.innerHTML = `<p>불러오기 실패: ${error.message}</p>`;
+  }
+}
+
+// 본인 첫인상 삭제
+document
+  .getElementById("impression-list")
+  .addEventListener("click", async (e) => {
+    if (!e.target.classList.contains("delete-btn")) return;
+    const id = e.target.dataset.id;
+    if (!confirm("이 첫인상 글을 삭제할까요?")) return;
+
+    try {
+      await deleteDoc(doc(db, "impressions", id));
+      loadImpressions();
+    } catch (error) {
+      alert("삭제 실패: " + error.message);
+    }
+  });
+
+// HTML 이스케이프 (XSS 방지)
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
