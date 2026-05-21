@@ -25,7 +25,13 @@ import {
   limit,
   startAfter,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js";
 // ─── Firebase 초기화 ──────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyC96aJz6wRh-Zb1FYK7T3PCdmrMDzGQs9k",
@@ -41,6 +47,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 // 로그인 상태에 따라 화면 자동 분기
 onAuthStateChanged(auth, (user) => {
@@ -245,9 +252,17 @@ diaryForm.addEventListener("submit", async (e) => {
   }
 
   try {
+    let photoURL = null;
+    if (selectedPhotoFile) {
+      const fileName = Date.now() + "_" + selectedPhotoFile.name;
+      const fileRef = ref(storage, `diaries/${user.uid}/${fileName}`);
+      await uploadBytes(fileRef, selectedPhotoFile);
+      photoURL = await getDownloadURL(fileRef);
+    }
     const docRef = await addDoc(collection(db, "diaries"), {
       title: title,
       content: content,
+      photoURL: photoURL,
       userId: user.uid,
       createdAt: serverTimestamp(),
     });
@@ -257,6 +272,8 @@ diaryForm.addEventListener("submit", async (e) => {
 
     // 폼 초기화
     diaryForm.reset();
+    selectedPhotoFile = null;
+    document.getElementById("photo-preview").style.display = "none";
 
     // 목록 다시 불러오기 (Step 5에서 만들 함수)
     loadDiaries();
@@ -369,8 +386,13 @@ function renderDiaryCard(id, data) {
     ? data.createdAt.toDate().toLocaleString("ko-KR")
     : "방금 저장됨";
 
+  const photoHTML = data.photoURL
+    ? `<img src="${data.photoURL}" class="diary-photo" alt="일기 사진" />`
+    : "";
+
   card.innerHTML = `
     <h3>${data.title}</h3>
+    ${photoHTML}
     <p>${data.content}</p>
     <div class="meta">${createdAt}</div>
     <div class="actions">
@@ -488,4 +510,43 @@ document.getElementById("search-form").addEventListener("submit", (e) => {
 document.getElementById("search-reset").addEventListener("click", () => {
   document.getElementById("search-keyword").value = "";
   loadDiaries();
+});
+// ─── 사진 미리보기 (lab9 Step 4) ─────────────────────────
+let selectedPhotoFile = null; // 선택된 File 객체 저장
+
+document.getElementById("diary-photo").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  const preview = document.getElementById("photo-preview");
+
+  if (!file) {
+    // 사용자가 선택 취소
+    selectedPhotoFile = null;
+    preview.style.display = "none";
+    return;
+  }
+
+  // 형식 검증
+  if (!file.type.startsWith("image/")) {
+    alert("이미지 파일만 업로드 가능해요.");
+    e.target.value = ""; // 입력 초기화
+    return;
+  }
+
+  // 크기 검증 (5MB 이하)
+  const MAX_SIZE = 5 * 1024 * 1024;
+  if (file.size > MAX_SIZE) {
+    alert(
+      "5MB 이하 사진만 업로드 가능해요. (현재: " +
+        (file.size / 1024 / 1024).toFixed(2) +
+        "MB)"
+    );
+    e.target.value = "";
+    return;
+  }
+
+  // 미리보기 표시
+  selectedPhotoFile = file;
+  const url = URL.createObjectURL(file);
+  preview.src = url;
+  preview.style.display = "block";
 });

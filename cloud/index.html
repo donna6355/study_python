@@ -88,6 +88,11 @@
           rows="4"
           required
         ></textarea>
+        <div class="photo-section">
+          <label for="diary-photo">사진 첨부 (선택, 5MB 이하)</label>
+          <input type="file" id="diary-photo" accept="image/*" />
+          <img id="photo-preview" style="display: none" alt="미리보기" />
+        </div>
         <button type="submit">일기 저장</button>
       </form>
 

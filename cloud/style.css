@@ -96,3 +96,25 @@ h2 {
   font-size: 12px;
   cursor: pointer;
 }
+.photo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0;
+}
+.photo-section label {
+  font-size: 13px;
+  color: #666;
+}
+#photo-preview {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  object-fit: cover;
+}
+.diary-card img.diary-photo {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 8px 0;
+}
