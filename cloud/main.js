@@ -1,6 +1,9 @@
 // ─── Firebase SDK import ──────────────────────────────────
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+import {
+  initializeAnalytics,
+  logEvent,
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
@@ -44,11 +47,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const isDev =
+  location.hostname === "localhost" || location.hostname === "127.0.0.1";
+const analytics = initializeAnalytics(app, {
+  config: { debug_mode: isDev },
+});
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
-
+const ANALYZE_FUNCTION_URL = "https://analyzediary-snl5zf2cpa-du.a.run.app/";
 // 로그인 상태에 따라 화면 자동 분기
 onAuthStateChanged(auth, (user) => {
   const loggedOutArea = document.getElementById("logged-out-area");
@@ -109,6 +116,7 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
       email,
       password
     );
+    logEvent(analytics, "sign_up", { method: "email" });
     console.log(
       "가입 성공:",
       userCredential.user.email,
@@ -138,6 +146,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
       email,
       password
     );
+    logEvent(analytics, "login", { method: "email" });
     console.log("로그인 성공:", userCredential.user.email);
     alert(`${userCredential.user.email}님 로그인 완료!`);
   } catch (error) {
@@ -270,7 +279,24 @@ diaryForm.addEventListener("submit", async (e) => {
 
     console.log("저장된 도큐먼트 ID:", docRef.id);
     alert("일기가 저장됐어요!");
+    // ⭐ 추가 — 일기 작성 성공 직후
+    logEvent(analytics, "diary_create", {
+      has_photo: photoURL ? true : false,
+    });
 
+    try {
+      const res = await fetch(ANALYZE_FUNCTION_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ diary: content }),
+      });
+      const data = await res.json();
+      document.getElementById("emotion-result").textContent =
+        "오늘의 감정 — " + data.emotion;
+    } catch (gptError) {
+      console.error("감정 분석 실패:", gptError);
+      // 감정 분석 실패해도 일기 저장은 이미 됐어요
+    }
     // 폼 초기화
     diaryForm.reset();
     selectedPhotoFile = null;
