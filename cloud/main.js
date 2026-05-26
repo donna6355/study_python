@@ -35,16 +35,6 @@ import {
   getDownloadURL,
   deleteObject,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js";
-// ─── Firebase 초기화 ──────────────────────────────────────
-const firebaseConfig = {
-  apiKey: "AIzaSyC96aJz6wRh-Zb1FYK7T3PCdmrMDzGQs9k",
-  authDomain: "dx-diary.firebaseapp.com",
-  projectId: "dx-diary",
-  storageBucket: "dx-diary.firebasestorage.app",
-  messagingSenderId: "517754453674",
-  appId: "1:517754453674:web:9b85fb1fe31b9287c21ad3",
-  measurementId: "G-NE8P47B8JE",
-};
 
 const app = initializeApp(firebaseConfig);
 const isDev =
