@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LG DoDo - 로봇청소기</title>
+    <style>
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #fff;
+        font-family:
+          "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+        min-height: 100vh;
+        padding: 24px;
+      }
+      .control-dashboard {
+        min-width: 100% - 40px;
+        height: 100vh - 40px;
+        background: #f4f6f9;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      /* ── Header ── */
+      header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 32px;
+      }
+
+      .back-btn {
+        position: absolute;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .back-btn .arrow {
+        font-size: 3rem;
+        color: #1a1a1a;
+        line-height: 1;
+      }
+
+      .back-btn .label {
+        font-size: 1.75rem;
+        color: #1a1a1a;
+      }
+
+      .home-btn {
+        position: absolute;
+        right: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      h1 {
+        font-size: 5.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        letter-spacing: -1px;
+      }
+
+      /* ── Main Grid ── */
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      /* ── Left Column ── */
+      .left-col {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+      }
+
+      /* Status Card */
+      .status-card {
+        background: linear-gradient(180deg, #d7d8db, #d2ddf7);
+        border-radius: 20px;
+        padding: 28px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .status-top {
+        width: 80%;
+        height: 30%;
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .status-dot {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #2f9e44;
+        flex-shrink: 0;
+        margin-right: 16px;
+      }
+
+      .status-dot.sleep {
+        background: #e03131;
+      }
+      .status-dot.charge {
+        background: #ffd050;
+      }
+      .status-value {
+        font-size: 5rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        text-align: center;
+      }
+
+      .status-label {
+        font-size: 2.5rem;
+        color: #444;
+        margin-top: 20px;
+        text-align: center;
+      }
+      .current-status {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Power Button */
+      .power-btn {
+        background: #e95151;
+        color: #000;
+        border: none;
+        border: 9px solid #000;
+        border-radius: 20px;
+        padding: 52px;
+        font-size: 6.5rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: -1px;
+        transition:
+          background 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .power-btn:hover {
+        background: #c92a2a;
+      }
+      .power-btn:active {
+        transform: scale(0.97);
+      }
+      .charge-btn {
+        background: #ffd050;
+        color: #000;
+        border: none;
+        border: 9px solid #000;
+        border-radius: 20px;
+        padding: 52px;
+        font-size: 6.5rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: -1px;
+        transition:
+          background 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .charge-btn:hover {
+        background: #ffc060;
+      }
+      .charge-btn:active {
+        transform: scale(0.97);
+      }
+
+      /* ── Control Panel (온도 / 바람) ── */
+      .control-panel {
+        border: 9px solid #1a1a1a;
+        border-radius: 20px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .ctrl-btn {
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        padding: 22px 0;
+        font-size: 5rem;
+        font-weight: 900;
+        cursor: pointer;
+        transition:
+          opacity 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .ctrl-btn:active {
+        transform: scale(0.96);
+        opacity: 0.85;
+      }
+
+      .ctrl-btn.blue {
+        background: #5799ec;
+        color: #1a1a1a;
+      }
+      .ctrl-btn.yellow {
+        background: #ffd050;
+        color: #1a1a1a;
+      }
+
+      .ctrl-label {
+        font-size: 5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+      .status-card.off {
+        background: linear-gradient(180deg, #d9d9d9, #e8a0b0);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      /* Power button states */
+      .power-btn.off {
+        background: #e03131; /* red - turn off */
+      }
+
+      .power-btn.on {
+        background: #2f9e44; /* green - turn on */
+      }
+
+      .power-btn.off:hover {
+        background: #c92a2a;
+      }
+      .power-btn.on:hover {
+        background: #276e35;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(100, 100, 100, 0.55);
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="control-dashboard">
+      <header>
+        <button class="back-btn" onclick="history.back()" aria-label="이전으로">
+          <span class="arrow">←</span>
+          <span class="label">이전</span>
+        </button>
+
+        <h1>로봇청소기</h1>
+
+        <button
+          class="home-btn"
+          onclick="location.href = 'home.html'"
+          type="button"
+          aria-label="홈으로 이동"
+        >
+          <img
+            src="src/icon_home.png"
+            alt="홈으로 가기 아이콘"
+            width="120"
+            height="120"
+          />
+        </button>
+      </header>
+
+      <div class="main-grid">
+        <div class="status-card" id="onStatus">
+          <div class="status-top">
+            <div>
+              <div class="status-value" id="channelDisplay">거실</div>
+              <div class="status-label">현재 위치</div>
+            </div>
+            <div>
+              <div class="status-value" id="volumeDisplay">35%</div>
+              <div class="status-label">배터리</div>
+            </div>
+          </div>
+
+          <div class="current-status">
+            <div class="status-dot" id="statusDot"></div>
+            <div class="status-value" id="statusLabel">청소 중</div>
+          </div>
+        </div>
+        <div class="left-col">
+          <button class="charge-btn off" id="chargeBtn" onclick="togglePower()">
+            충전대로 이동
+          </button>
+          <button class="power-btn off" id="powerBtn" onclick="togglePower()">
+            청소 중지
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let status = 0; // 0: 청소 중, 1: 충전 중, 2: 대기
+      const statusDot = document.getElementById("statusDot");
+      const statusLabel = document.getElementById("statusLabel");
+      const powerBtn = document.getElementById("powerBtn");
+      const chargeBtn = document.getElementById("chargeBtn");
+    </script>
+  </body>
+</html>

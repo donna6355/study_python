@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LG DoDo - 스마트 TV</title>
+    <style>
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #fff;
+        font-family:
+          "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+        min-height: 100vh;
+        padding: 24px;
+      }
+      .control-dashboard {
+        min-width: 100% - 40px;
+        height: 100vh - 40px;
+        background: #f4f6f9;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      /* ── Header ── */
+      header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 32px;
+      }
+
+      .back-btn {
+        position: absolute;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .back-btn .arrow {
+        font-size: 3rem;
+        color: #1a1a1a;
+        line-height: 1;
+      }
+
+      .back-btn .label {
+        font-size: 1.75rem;
+        color: #1a1a1a;
+      }
+
+      .home-btn {
+        position: absolute;
+        right: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      h1 {
+        font-size: 5.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        letter-spacing: -1px;
+      }
+
+      /* ── Main Grid ── */
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr;
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      /* ── Left Column ── */
+      .left-col {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+      }
+
+      /* Status Card */
+      .status-card {
+        background: linear-gradient(180deg, #d7d8db, #d2ddf7);
+        border-radius: 20px;
+        padding: 28px 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        flex: 1;
+        align-items: center;
+      }
+
+      .status-value {
+        font-size: 5rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        text-align: center;
+      }
+
+      .status-label {
+        font-size: 2.5rem;
+        color: #444;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      /* Power Button */
+      .power-btn {
+        background: #e95151;
+        color: #000;
+        border: none;
+        border: 9px solid #000;
+        border-radius: 20px;
+        padding: 52px;
+        font-size: 6.5rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: -1px;
+        transition:
+          background 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .power-btn:hover {
+        background: #c92a2a;
+      }
+      .power-btn:active {
+        transform: scale(0.97);
+      }
+
+      /* ── Control Panel (온도 / 바람) ── */
+      .control-panel {
+        border: 9px solid #1a1a1a;
+        border-radius: 20px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .ctrl-btn {
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        padding: 22px 0;
+        font-size: 5rem;
+        font-weight: 900;
+        cursor: pointer;
+        transition:
+          opacity 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .ctrl-btn:active {
+        transform: scale(0.96);
+        opacity: 0.85;
+      }
+
+      .ctrl-btn.blue {
+        background: #5799ec;
+        color: #1a1a1a;
+      }
+      .ctrl-btn.yellow {
+        background: #ffd050;
+        color: #1a1a1a;
+      }
+
+      .ctrl-label {
+        font-size: 5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+      .status-card.off {
+        background: linear-gradient(180deg, #d9d9d9, #e8a0b0);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      /* Power button states */
+      .power-btn.off {
+        background: #e03131; /* red - turn off */
+      }
+
+      .power-btn.on {
+        background: #2f9e44; /* green - turn on */
+      }
+
+      .power-btn.off:hover {
+        background: #c92a2a;
+      }
+      .power-btn.on:hover {
+        background: #276e35;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(100, 100, 100, 0.55);
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="control-dashboard">
+      <header>
+        <button class="back-btn" onclick="history.back()" aria-label="이전으로">
+          <span class="arrow">←</span>
+          <span class="label">이전</span>
+        </button>
+
+        <h1>스마트 TV</h1>
+
+        <button
+          class="home-btn"
+          onclick="location.href = 'home.html'"
+          type="button"
+          aria-label="홈으로 이동"
+        >
+          <img
+            src="src/icon_home.png"
+            alt="홈으로 가기 아이콘"
+            width="120"
+            height="120"
+          />
+        </button>
+      </header>
+
+      <div class="main-grid">
+        <!-- Left: status + power -->
+        <div class="left-col">
+          <div class="status-card" id="onStatus">
+            <div>
+              <div class="status-value" id="channelDisplay">7</div>
+              <div class="status-label">현재 채널</div>
+            </div>
+            <div>
+              <div class="status-value" id="volumeDisplay">8</div>
+              <div class="status-label">볼륨</div>
+            </div>
+          </div>
+          <div class="status-card off" id="offStatus" style="display: none">
+            <div class="status-value">꺼짐</div>
+          </div>
+
+          <button class="power-btn off" id="powerBtn" onclick="togglePower()">
+            전원 끄기
+          </button>
+        </div>
+
+        <!-- Center: 채널 control -->
+        <div class="control-panel">
+          <div class="overlay" style="display: none" id="channelOverlay"></div>
+          <button class="ctrl-btn blue" onclick="changeChannel(1)">
+            <svg
+              width="140"
+              height="140"
+              viewBox="0 0 36 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <polyline
+                points="6,24 18,12 30,24"
+                stroke="#1a1a1a"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <span class="ctrl-label">채널</span>
+          <button class="ctrl-btn blue" onclick="changeChannel(-1)">
+            <svg
+              width="140"
+              height="140"
+              viewBox="0 0 36 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <polyline
+                points="6,12 18,24 30,12"
+                stroke="#1a1a1a"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Right: 볼륨 control -->
+        <div class="control-panel">
+          <div class="overlay" style="display: none" id="volOverlay"></div>
+          <button class="ctrl-btn yellow" onclick="changeVolume(1)">
+            <svg
+              width="140"
+              height="140"
+              viewBox="0 0 36 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <polyline
+                points="6,24 18,12 30,24"
+                stroke="#1a1a1a"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <span class="ctrl-label">볼륨</span>
+          <button class="ctrl-btn yellow" onclick="changeVolume(-1)">
+            <svg
+              width="140"
+              height="140"
+              viewBox="0 0 36 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <polyline
+                points="6,12 18,24 30,12"
+                stroke="#1a1a1a"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let channel = 7;
+      let volume = 8;
+      let windIndex = 1;
+      let isOn = true;
+      function togglePower() {
+        isOn = !isOn;
+
+        const powerBtn = document.getElementById("powerBtn");
+        const onCard = document.getElementById("onStatus");
+        const offCard = document.getElementById("offStatus");
+        const channelOverlay = document.getElementById("channelOverlay");
+        const volOverlay = document.getElementById("volOverlay");
+
+        if (isOn) {
+          // ON state
+          powerBtn.textContent = "전원 끄기";
+          powerBtn.className = "power-btn off";
+          onCard.style.display = "grid";
+          offCard.style.display = "none";
+          channelOverlay.style.display = "none";
+          volOverlay.style.display = "none";
+        } else {
+          // OFF state
+          powerBtn.textContent = "전원 켜기";
+          powerBtn.className = "power-btn on";
+          onCard.style.display = "none";
+          offCard.style.display = "flex";
+          channelOverlay.style.display = "block";
+          volOverlay.style.display = "block";
+        }
+      }
+
+      function changeChannel(delta) {
+        channel = Math.min(100, Math.max(1, channel + delta));
+        document.getElementById("channelDisplay").textContent = channel;
+      }
+
+      function changeVolume(delta) {
+        volume = Math.min(30, Math.max(0, volume + delta));
+        document.getElementById("volumeDisplay").textContent = volume;
+      }
+    </script>
+  </body>
+</html>

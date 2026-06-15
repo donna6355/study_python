@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>LG DoDo — 가전 제어</title>
+    <style>
+      /* Control Dashboard — Responsive Appliance Management */
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family:
+          "LG Smart UI",
+          "Inter",
+          system-ui,
+          -apple-system,
+          "Apple SD Gothic Neo",
+          "Malgun Gothic",
+          sans-serif;
+        background: #fff;
+        padding: 20px;
+      }
+
+      .control-dashboard {
+        min-width: 100% - 40px;
+        height: 100vh - 40px;
+        background: #f4f6f9;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 24px 20px;
+      }
+
+      .home-btn {
+        position: absolute;
+        left: 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      h1 {
+        font-size: 5.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0;
+        letter-spacing: -1px;
+      }
+      .home-icon {
+        color: #333;
+        flex-shrink: 0;
+      }
+
+      .dashboard-header h1 {
+        margin: 0;
+        font-size: clamp(1.5rem, 5vw, 6rem);
+        font-weight: 700;
+        color: #000;
+      }
+
+      /* Devices Grid — responsive layout */
+      .devices-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        align-items: stretch;
+      }
+
+      .control-button {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        background: #ffffff;
+        border: 1px solid #e6e6e6;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+        padding: 20px 32px;
+        cursor: pointer;
+        box-sizing: border-box;
+        transition:
+          background 0.15s ease,
+          transform 0.1s ease;
+        user-select: none;
+      }
+
+      .control-button:hover {
+        background: #f7f7f7;
+      }
+
+      .control-button:active {
+        transform: scale(0.98);
+      }
+
+      /* TV Icon */
+      .control-icon {
+        flex-shrink: 0;
+        width: 120px;
+        height: 120px;
+      }
+
+      /* Text Section */
+      .control-info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        text-align: left;
+      }
+
+      .control-name {
+        font-size: 4rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        line-height: 1;
+        letter-spacing: -0.5px;
+      }
+
+      .control-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .status-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #e03131;
+        flex-shrink: 0;
+      }
+
+      .status-dot.on {
+        background: #2f9e44;
+      }
+      .status-dot.save {
+        background: #ffd050;
+      }
+
+      .status-label {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+
+      /* Power-off Button */
+      .power-off-btn {
+        appearance: none;
+        border: 3px solid #000;
+        background: #e95151;
+        color: #000;
+        padding: 16px 24px;
+        border-radius: 50px;
+        font-size: clamp(1rem, 4vw, 2rem);
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(233, 81, 81, 0.2);
+        transition:
+          background 200ms ease,
+          box-shadow 200ms ease,
+          transform 100ms ease;
+      }
+
+      .power-off-btn:hover {
+        background: #d63d3d;
+        box-shadow: 0 8px 20px rgba(233, 81, 81, 0.3);
+      }
+
+      .power-off-btn:active {
+        transform: scale(0.98);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="control-dashboard">
+      <header>
+        <button
+          class="home-btn"
+          onclick="location.href = 'home.html'"
+          type="button"
+          aria-label="홈으로 이동"
+        >
+          <img
+            src="src/icon_home.png"
+            alt="홈으로 가기 아이콘"
+            width="120"
+            height="120"
+          />
+        </button>
+        <h1>가전 제어</h1>
+      </header>
+
+      <section class="devices-grid" role="region" aria-label="가전 제어">
+        <button
+          class="control-button"
+          onclick="location.href = 'control_tv.html'"
+          aria-label="스마트 TV 전원 토글"
+        >
+          <img
+            class="control-icon"
+            src="https://www.figma.com/api/mcp/asset/aff79db5-abca-440c-9813-87215dcb4f4a"
+            alt="스마트 TV 아이콘"
+          />
+
+          <div class="control-info">
+            <span class="control-name">스마트 TV</span>
+            <div class="control-status">
+              <span class="status-dot" id="statusDot"></span>
+              <span class="status-label" id="statusLabel">꺼짐</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="control-button" aria-label="세탁기 토글">
+          <img
+            class="control-icon"
+            src="https://www.figma.com/api/mcp/asset/e6958228-87d8-4bc3-98b8-44c73854c226"
+            alt="세탁기"
+          />
+
+          <div class="control-info">
+            <span class="control-name">세탁기</span>
+            <div class="control-status">
+              <span class="status-dot on" id="statusDot"></span>
+              <span class="status-label" id="statusLabel"
+                >40분 남음 · 세척</span
+              >
+            </div>
+          </div></button
+        ><button
+          class="control-button"
+          onclick="location.href = 'control_ac.html'"
+          aria-label="에어컨 토글"
+        >
+          <img
+            class="control-icon"
+            src="https://www.figma.com/api/mcp/asset/912f8136-1867-4437-b045-3d7b57b43763"
+            alt="에어컨"
+          />
+
+          <div class="control-info">
+            <span class="control-name">에어컨</span>
+            <div class="control-status">
+              <span class="status-dot on" id="statusDot"></span>
+              <span class="status-label" id="statusLabel">24°C · 냉방</span>
+            </div>
+          </div>
+        </button>
+        <button class="control-button" onclick="" aria-label="인덕션 토글">
+          <img
+            class="control-icon"
+            src="https://www.figma.com/api/mcp/asset/19f5b566-30d9-41e6-a27a-1aa36042cf01"
+            alt="인덕션"
+          />
+
+          <div class="control-info">
+            <span class="control-name">인덕션</span>
+            <div class="control-status">
+              <span class="status-dot on" id="statusDot"></span>
+              <span class="status-label" id="statusLabel">16분 사용 중</span>
+            </div>
+          </div>
+        </button>
+        <button
+          class="control-button"
+          onclick="location.href = 'control_cleaner.html'"
+          aria-label="로봇청소기 토글"
+        >
+          <img
+            class="control-icon"
+            src="https://www.figma.com/api/mcp/asset/92bd4a3d-95ea-4d26-aff6-8e71ae75ff05"
+            alt="로봇청소기"
+          />
+
+          <div class="control-info">
+            <span class="control-name">로봇청소기</span>
+            <div class="control-status">
+              <span class="status-dot" id="statusDot"></span>
+              <span class="status-label" id="statusLabel">충전 중 · 81%</span>
+            </div>
+          </div>
+        </button>
+
+        <button
+          class="control-button"
+          onclick="location.href = 'control_puri.html'"
+          aria-label="공기청정기 토글"
+        >
+          <img
+            class="control-icon"
+            src="https://www.figma.com/api/mcp/asset/978d0c07-9fc6-425b-8adc-92a01b0608e0"
+            alt="공기청정기"
+          />
+
+          <div class="control-info">
+            <span class="control-name">공기청정기</span>
+            <div class="control-status">
+              <span class="status-dot save" id="statusDot"></span>
+              <span class="status-label" id="statusLabel"
+                >절전 · 공기 좋음</span
+              >
+            </div>
+          </div>
+        </button>
+      </section>
+
+      <button class="power-off-btn" type="button">모든 기기 전원 끄기</button>
+    </main>
+  </body>
+</html>
