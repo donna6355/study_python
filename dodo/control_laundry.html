@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LG DoDo - 세탁기</title>
+    <style>
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #fff;
+        font-family:
+          "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+        min-height: 100vh;
+        padding: 24px;
+      }
+      .control-dashboard {
+        min-width: 100% - 40px;
+        min-height: 80vh;
+        background: #f4f6f9;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      /* ── Header ── */
+      header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 32px;
+      }
+
+      .back-btn {
+        position: absolute;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .back-btn .arrow {
+        font-size: 3rem;
+        color: #1a1a1a;
+        line-height: 1;
+      }
+
+      .back-btn .label {
+        font-size: 1.75rem;
+        color: #1a1a1a;
+      }
+
+      .home-btn {
+        position: absolute;
+        right: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      h1 {
+        font-size: 5.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        letter-spacing: -1px;
+      }
+
+      /* ── Main Grid ── */
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      /* ── Left Column ── */
+      .left-col {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      /* Status Card */
+      .status-card {
+        background: linear-gradient(180deg, #d7d8db, #d2ddf7);
+        border-radius: 20px;
+        padding: 28px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .status-top {
+        width: 90%;
+        height: 30%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .status-dot {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #2f9e44;
+        flex-shrink: 0;
+        margin-right: 16px;
+      }
+
+      .status-dot.sleep {
+        background: #e03131;
+      }
+      .status-value {
+        font-size: 5rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        text-align: center;
+      }
+
+      .status-label {
+        font-size: 2.5rem;
+        color: #444;
+        margin-top: 20px;
+        text-align: center;
+      }
+      .status-top-label {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        /* text-align: center; */
+      }
+
+      .dot-label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .current-status {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+        padding: 12vh 0;
+      }
+
+      /* Power Button */
+      .power-btn {
+        background: #e95151;
+        color: #000;
+        border: none;
+        border: 9px solid #000;
+        border-radius: 20px;
+        padding: 52px;
+        font-size: 6.5rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: -1px;
+        transition:
+          background 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .power-btn:hover {
+        background: #c92a2a;
+      }
+      .power-btn:active {
+        transform: scale(0.97);
+      }
+      .charge-btn {
+        background: #ffd050;
+        color: #000;
+        border: none;
+        border: 9px solid #000;
+        border-radius: 20px;
+        padding: 52px;
+        font-size: 6.5rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: -1px;
+        transition:
+          background 0.15s ease,
+          transform 0.1s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .charge-btn:hover {
+        background: #ffc060;
+      }
+      .charge-btn:active {
+        transform: scale(0.97);
+      }
+
+      /* ── Control Panel (온도 / 바람) ── */
+      .control-panel {
+        border: 9px solid #1a1a1a;
+        border-radius: 20px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .ctrl-btn {
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        padding: 22px 0;
+        font-size: 5rem;
+        font-weight: 900;
+        cursor: pointer;
+        transition:
+          opacity 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .ctrl-btn:active {
+        transform: scale(0.96);
+        opacity: 0.85;
+      }
+
+      .ctrl-btn.blue {
+        background: #5799ec;
+        color: #1a1a1a;
+      }
+      .ctrl-btn.yellow {
+        background: #ffd050;
+        color: #1a1a1a;
+      }
+
+      .ctrl-label {
+        font-size: 5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+      .status-card.off {
+        background: linear-gradient(180deg, #d9d9d9, #e8a0b0);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      /* Power button states */
+      .power-btn.off {
+        background: #e03131; /* red - turn off */
+      }
+
+      .power-btn.on {
+        background: #2f9e44; /* green - turn on */
+      }
+
+      .power-btn.off:hover {
+        background: #c92a2a;
+      }
+      .power-btn.on:hover {
+        background: #276e35;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(100, 100, 100, 0.55);
+        z-index: 10;
+      }
+      .bar {
+        min-width: 1px;
+        height: 24vh;
+        background-color: #1a1a1a;
+      }
+      .course {
+        background: #d2ddf7;
+        border-radius: 20px;
+        padding: 28px 56px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        flex: 1;
+      }
+      .course-options {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .course-btn {
+        background: #fff;
+        border-radius: 36px;
+        border: 4px solid #d7d8db;
+        font-size: 4rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        text-align: center;
+        margin-top: 12px;
+        padding: 24px 64px;
+      }
+      .course-btn:hover {
+        background: #276e35;
+      }
+      .course-btn.selected:hover {
+        background: #276e35;
+      }
+      .sub {
+        font-size: 2.5rem;
+        font-weight: 600;
+      }
+      .course-btn.selected {
+        background: #2f9e44;
+        border: 4px solid #2f9e44;
+      }
+      .course-btn.time {
+        font-size: 5rem;
+        padding: 40px 56px;
+      }
+      .course-btn.time:hover {
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="control-dashboard">
+      <header>
+        <button class="back-btn" onclick="history.back()" aria-label="이전으로">
+          <span class="arrow">←</span>
+          <span class="label">이전</span>
+        </button>
+
+        <h1>세탁기</h1>
+
+        <button
+          class="home-btn"
+          onclick="location.href = 'home.html'"
+          type="button"
+          aria-label="홈으로 이동"
+        >
+          <img
+            src="src/icon_home.png"
+            alt="홈으로 가기 아이콘"
+            width="120"
+            height="120"
+          />
+        </button>
+      </header>
+
+      <div class="main-grid">
+        <div class="status-card off" id="onStatus">
+          <div class="status-top">
+            <div class="status-top-label" id="courseLabel">표준</div>
+            <div class="dot-label">
+              <div class="status-dot sleep" id="statusDot"></div>
+              <div class="status-top-label" id="statusLabel">꺼짐</div>
+            </div>
+          </div>
+
+          <div class="current-status">
+            <div>
+              <div class="status-value" id="courseWash">2회</div>
+              <div class="status-label">헹굼</div>
+            </div>
+            <div class="bar"></div>
+            <div>
+              <div class="status-value" id="courseDry">중</div>
+              <div class="status-label">탈수</div>
+            </div>
+            <div class="bar"></div>
+            <div>
+              <div class="status-value">40°C</div>
+              <div class="status-label">물온도</div>
+            </div>
+          </div>
+        </div>
+        <div class="left-col">
+          <div class="course">
+            <div class="status-top-label">코스 선택</div>
+            <div class="course-options" id="courseOptions">
+              <button class="course-btn selected" onclick="selectCourse(0)">
+                <div>표준</div>
+                <div class="sub">45분</div>
+              </button>
+              <button class="course-btn" onclick="selectCourse(1)">
+                <div>강력</div>
+                <div class="sub">90분</div>
+              </button>
+              <button class="course-btn" onclick="selectCourse(2)">
+                <div>신속</div>
+                <div class="sub">30분</div>
+              </button>
+            </div>
+            <div class="course-btn time" style="display: none" id="courseTime">
+              60분 34초
+            </div>
+          </div>
+          <button class="power-btn on" id="powerBtn" onclick="togglePower()">
+            세탁 시작
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let isOn = false;
+      let idx = 0;
+      let timerId = null;
+      let remainingSeconds = 0;
+      const courses = [
+        ["표준", "2회", "중", "44분 59초"],
+        ["강력", "3회", "강", "89분 59초"],
+        ["신속", "1회", "약", "29분 59초"],
+      ];
+      const statusDot = document.getElementById("statusDot");
+      const statusLabel = document.getElementById("statusLabel");
+      const powerBtn = document.getElementById("powerBtn");
+      const statusCard = document.getElementById("onStatus");
+      const courseLabel = document.getElementById("courseLabel");
+      const courseWash = document.getElementById("courseWash");
+      const courseDry = document.getElementById("courseDry");
+      const courseTime = document.getElementById("courseTime");
+      const courseOptions = document.getElementById("courseOptions");
+
+      function parseDuration(timeString) {
+        const match = timeString.match(/(\d+)\s*분\s*(\d+)\s*초/);
+        return match ? Number(match[1]) * 60 + Number(match[2]) : 0;
+      }
+
+      function formatDuration(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes}분 ${secs.toString().padStart(2, "0")}초`;
+      }
+
+      function updatePowerButtonText() {
+        powerBtn.textContent = isOn ? `세탁 중지` : "세탁 시작";
+      }
+
+      function stopTimer() {
+        if (timerId !== null) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+      }
+
+      function selectCourse(i) {
+        document
+          .getElementsByClassName("course-btn")
+          [idx].classList.remove("selected");
+        idx = i;
+        courseLabel.textContent = courses[i][0];
+        courseWash.textContent = courses[i][1];
+        courseDry.textContent = courses[i][2];
+
+        document
+          .getElementsByClassName("course-btn")
+          [i].classList.add("selected");
+      }
+
+      function togglePower() {
+        if (isOn) {
+          stopTimer();
+          powerBtn.classList.remove("off");
+          powerBtn.classList.add("on");
+
+          statusLabel.textContent = "꺼짐";
+          statusDot.classList.add("sleep");
+          statusCard.classList.add("off");
+          courseTime.style.display = "none";
+          courseOptions.style.display = "block";
+          isOn = false;
+          updatePowerButtonText();
+        } else {
+          remainingSeconds = parseDuration(courses[idx][3]);
+          powerBtn.classList.remove("on");
+          powerBtn.classList.add("off");
+
+          statusLabel.textContent = "사용 중";
+          statusDot.classList.remove("sleep");
+          statusCard.classList.remove("off");
+          courseTime.textContent = formatDuration(remainingSeconds);
+          courseTime.style.display = "block";
+          courseOptions.style.display = "none";
+          isOn = true;
+          updatePowerButtonText();
+
+          stopTimer();
+          timerId = setInterval(() => {
+            remainingSeconds -= 1;
+            if (remainingSeconds <= 0) {
+              stopTimer();
+              isOn = false;
+              statusLabel.textContent = "완료";
+              statusDot.classList.add("sleep");
+              statusCard.classList.add("off");
+              courseTime.style.display = "none";
+              courseOptions.style.display = "block";
+              updatePowerButtonText();
+              return;
+            }
+            courseTime.textContent = formatDuration(remainingSeconds);
+            updatePowerButtonText();
+          }, 1000);
+        }
+      }
+    </script>
+  </body>
+</html>

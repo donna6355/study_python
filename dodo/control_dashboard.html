@@ -49,6 +49,8 @@
         display: flex;
         flex-direction: column;
         gap: 28px;
+        position: relative;
+        overflow: hidden;
       }
       header {
         display: flex;
@@ -198,10 +200,103 @@
       .power-off-btn:active {
         transform: scale(0.98);
       }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(100, 100, 100, 0.55);
+        z-index: 10;
+      }
+      .confirm-dialog {
+        margin: 160px auto;
+        width: 100%;
+        max-width: 640px;
+        border-radius: 28px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .confirm-message {
+        padding: 56px 32px 64px;
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        line-height: 1.4;
+      }
+
+      .confirm-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .confirm-btn {
+        border: none;
+        padding: 40px 0;
+        font-size: 2.25rem;
+        font-weight: 700;
+        cursor: pointer;
+        color: #1a1a1a;
+        transition: opacity 0.15s ease;
+      }
+
+      .confirm-btn:active {
+        opacity: 0.8;
+      }
+
+      .confirm-btn.yes {
+        background: #4caf7d;
+      }
+
+      .confirm-btn.yes:hover {
+        background: #3f9d6d;
+      }
+
+      .confirm-btn.no {
+        background: #d9d9d9;
+      }
+
+      .confirm-btn.no:hover {
+        background: #cccccc;
+      }
     </style>
   </head>
   <body>
     <main class="control-dashboard">
+      <div class="overlay" style="display: none" id="popupOverlay">
+        <div
+          class="confirm-dialog"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="confirmMessage"
+        >
+          <p class="confirm-message" id="confirmMessage">
+            정말 모든 기기 전원을<br />끄시겠습니까?
+          </p>
+          <div class="confirm-actions">
+            <button
+              class="confirm-btn yes"
+              id="yesBtn"
+              type="button"
+              onclick="closePopup()"
+            >
+              예
+            </button>
+            <button
+              class="confirm-btn no"
+              id="noBtn"
+              type="button"
+              onclick="closePopup()"
+            >
+              아니요
+            </button>
+          </div>
+        </div>
+      </div>
       <header>
         <button
           class="home-btn"
@@ -240,7 +335,11 @@
           </div>
         </button>
 
-        <button class="control-button" aria-label="세탁기 토글">
+        <button
+          class="control-button"
+          onclick="location.href = 'control_laundry.html'"
+          aria-label="세탁기 토글"
+        >
           <img
             class="control-icon"
             src="https://www.figma.com/api/mcp/asset/e6958228-87d8-4bc3-98b8-44c73854c226"
@@ -337,7 +436,21 @@
         </button>
       </section>
 
-      <button class="power-off-btn" type="button">모든 기기 전원 끄기</button>
+      <button class="power-off-btn" type="button" onclick="openPopup()">
+        모든 기기 전원 끄기
+      </button>
     </main>
+
+    <script>
+      const popupOverlay = document.getElementById("popupOverlay");
+
+      function openPopup() {
+        popupOverlay.style.display = "block";
+      }
+
+      function closePopup() {
+        popupOverlay.style.display = "none";
+      }
+    </script>
   </body>
 </html>
