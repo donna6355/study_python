@@ -3,16 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>LG DoDo</title>
+    <title>LG DoDo - 수어 대화</title>
     <link rel="stylesheet" href="theme.css" />
     <script src="theme.js"></script>
+
     <style>
-      .home-screen {
+      /* Home screen styles — responsive action buttons */
+      p {
+        margin: 24px;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "LG Smart UI", "Inter";
+        background: var(--bg-white);
+      }
+
+      .chat-screen {
+        margin: 20px;
         background: var(--bg-light);
-        min-width: 100% - 40px;
+        min-width: 100vw - 40px;
         min-height: 95vh;
         display: grid;
-        place-items: center;
+        place-items: start center;
       }
       .button {
         width: 200vw;
@@ -26,25 +39,6 @@
         gap: 20px;
         align-items: stretch;
       }
-      p {
-        margin: 36px;
-      }
-
-      .home-header {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        font-weight: 700;
-        font-size: 3rem;
-      }
-
-      .home-header h1 {
-        margin: 0;
-        font-size: 5.5rem;
-        color: var(--lg-red);
-        font-weight: 700;
-      }
-
       .actions {
         display: flex;
         flex-direction: column;
@@ -52,13 +46,37 @@
         align-items: center;
         width: 95%;
       }
+      header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 24px 20px;
+      }
+      .home-btn {
+        position: absolute;
+        left: 20px;
+        right: inherit;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
 
+      h1 {
+        font-size: 5.5rem;
+        font-weight: 700;
+        color: var(--f-b-w);
+        margin: 0;
+        letter-spacing: -1px;
+      }
       .action-btn {
         appearance: none;
         border: 0;
         background: var(--bg-w-b);
         color: var(--f-b-w);
-        padding: 16px 18px;
+        padding: 80px 18px;
         border-radius: 40px;
         font-size: 2.5rem;
         font-weight: 700;
@@ -77,6 +95,7 @@
       }
       .label {
         font-size: 5.5rem;
+        color: var(--f-b-y);
       }
 
       .action-btn:active {
@@ -103,58 +122,43 @@
       @media (min-width: 1100px) {
         .actions {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(2, 1fr);
           gap: 20px;
         }
       }
     </style>
   </head>
   <body>
-    <div class="home-screen">
-      <header class="home-header">
-        <h1>LG DoDo</h1>
+    <div class="chat-screen">
+      <header>
+        <button
+          class="home-btn"
+          onclick="location.href = 'home.html'"
+          type="button"
+          aria-label="홈으로 이동"
+        >
+          <img
+            src="src/icon_home.png"
+            alt="홈으로 가기 아이콘"
+            width="120"
+            height="120"
+          />
+        </button>
+        <h1>수어 대화</h1>
       </header>
-
       <section class="actions" role="navigation" aria-label="주요 기능">
-        <button
-          class="action-btn"
-          type="button"
-          onclick="location.href = 'chat_main.html'"
-        >
+        <button class="action-btn" type="button">
           <div class="action-content">
-            <img src="src/icon_chat.png" alt="DoDo chat" class="chat-icon" />
-            <p class="label">수어 대화</p>
-            <p>실시간으로 수어로 대화해요</p>
+            <img src="src/icon_rtchat.png" alt="DoDo chat" />
+            <p class="label">실시간 대화</p>
+            <p>실시간 수어 대화를 시작해요</p>
           </div>
         </button>
-        <button
-          class="action-btn"
-          onclick="location.href = 'control_dashboard.html'"
-          type="button"
-        >
+        <button class="action-btn" type="button">
           <div class="action-content">
-            <img
-              src="src/icon_control.png"
-              alt="가전 제어"
-              class="control-icon"
-            />
-            <p class="label">가전 제어</p>
-            <p>우리집 가전을 쉽게 관리해요</p>
-          </div>
-        </button>
-        <button
-          class="action-btn"
-          type="button"
-          onclick="location.href = 'mypage.html'"
-        >
-          <div class="action-content">
-            <img
-              src="src/icon_my_page.png"
-              alt="마이 페이지"
-              class="my-page-icon"
-            />
-            <p class="label">마이 페이지</p>
-            <p>나에게 맞는 화면으로 설정해요</p>
+            <img src="src/icon_report.png" alt="대화 리포트" />
+            <p class="label no-margin">대화 리포트</p>
+            <p class="no-margin">과거 대화 요약을 볼 수 있어요</p>
           </div>
         </button>
       </section>

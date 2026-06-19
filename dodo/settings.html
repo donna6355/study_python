@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LG DoDo - 환경 설정</title>
+
+  <link rel="stylesheet" href="theme.css" />
+  <script src="theme.js"></script>
+
+    <style>
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "LG Smart UI";
+        src: url("src/LG Smart UI Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #fff;
+        font-family:
+          "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+        min-height: 100vh;
+        padding: 24px;
+      }
+      .control-dashboard {
+        min-width: 100% - 40px;
+        min-height: 95vh;
+        background: #f4f6f9;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      /* ── Header ── */
+      header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 32px;
+      }
+
+      .back-btn {
+        position: absolute;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .back-btn .arrow {
+        font-size: 3rem;
+        color: #1a1a1a;
+        line-height: 1;
+      }
+
+      .back-btn .label {
+        font-size: 1.75rem;
+        color: #1a1a1a;
+      }
+
+      .home-btn {
+        position: absolute;
+        right: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      h1 {
+        font-size: 5.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        letter-spacing: -1px;
+      }
+
+      /* ── Main Grid ── */
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      /* ── Left Column ── */
+      .left-col {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+      }
+
+      /* Status Card */
+      .status-card {
+        background: #fff;
+        border-radius: 50px;
+        padding: 40px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    position: relative;
+      }
+.slider{
+    position: absolute;
+    top: 0;
+    left: 0;          /* starting position */
+    height: 100%;width: 75%;
+        border-radius: 50px;
+  background:#53B175 ;
+        padding:40px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+}
+      .status-value {
+        font-size: 4rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        text-align: center;
+      }
+
+      .status-label {
+        font-size: 2.5rem;
+        color: #444;
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      /* Power Button */
+      .power-btn {
+        background: #5799EC;
+        /* background: #E95151; */
+        color: #000;
+        border: none;
+        border: 5px solid #000;
+        border-radius: 50px;
+        padding: 28px;
+        font-size: 4rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: -1px;
+        transition:
+          background 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .power-btn:active {
+        transform: scale(0.97);
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(100, 100, 100, 0.55);
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="control-dashboard">
+      <header>
+        <button class="back-btn" onclick="history.back()" aria-label="이전으로">
+          <span class="arrow">←</span>
+          <span class="label">이전</span>
+        </button>
+
+        <h1>환경 설정</h1>
+
+        <button
+          class="home-btn"
+          onclick="location.href = 'home.html'"
+          type="button"
+          aria-label="홈으로 이동"
+        >
+          <img
+            src="src/icon_home.png"
+            alt="홈으로 가기 아이콘"
+            width="120"
+            height="120"
+          />
+        </button>
+      </header>
+
+      <div class="main-grid">
+        <!-- Left: status + power -->
+        <div class="left-col">
+          <div class="status-card" >
+                <img
+            src="src/icon_voice.png"
+            alt="홈으로 가기 아이콘"
+            width="120"
+            height="120"
+          />  <img
+            src="src/icon_voice.png"
+            alt="홈으로 가기 아이콘"
+            width="120"
+            height="120"
+          />
+            <div class="slider" id="voicePanel" type="button" aria-pressed="true">
+              <div class="status-value">음성 알림 모드</div>
+              <div class="status-label">친절한 음성 알림입니다</div>
+            </div>
+          </div> 
+          <div class="status-card off" id="offStatus" style="display: none">
+            <div class="status-value">꺼짐</div>
+            <div class="status-label"><span>현재 실내 26°C</span></div>
+          </div>
+
+          <button class="power-btn" id="selectBtn" onclick="togglePower()">
+            모두 선택
+          </button>
+        </div>
+
+
+        
+    </main>
+
+    <script>
+      let temp = 24;
+      const windLevels = ["약", "중", "강"];
+      let windIndex = 1;
+      let isOn = true;
+      function togglePower() {
+        isOn = !isOn;
+
+        const powerBtn = document.getElementById("powerBtn");
+        const onCard = document.getElementById("onStatus");
+        const offCard = document.getElementById("offStatus");
+        const tempOverlay = document.getElementById("tempOverlay");
+        const windOverlay = document.getElementById("windOverlay");
+
+        if (isOn) {
+          // ON state
+          powerBtn.textContent = "전원 끄기";
+          powerBtn.className = "power-btn off";
+          onCard.style.display = "grid";
+          offCard.style.display = "none";
+          tempOverlay.style.display = "none";
+          windOverlay.style.display = "none";
+        } else {
+          // OFF state
+          powerBtn.textContent = "전원 켜기";
+          powerBtn.className = "power-btn on";
+          onCard.style.display = "none";
+          offCard.style.display = "flex";
+          tempOverlay.style.display = "block";
+          windOverlay.style.display = "block";
+        }
+      }
+
+      function changeTemp(delta) {
+        temp = Math.min(30, Math.max(16, temp + delta));
+        document.getElementById("tempDisplay").textContent = temp + "°C";
+      }
+
+      function changeWind(delta) {
+        windIndex = Math.min(2, Math.max(0, windIndex + delta));
+        document.getElementById("windDisplay").textContent =
+          windLevels[windIndex];
+      }
+    </script>
+  </body>
+</html>

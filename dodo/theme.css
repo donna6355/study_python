@@ -1,0 +1,233 @@
+:root {
+  --bg-splash: #53b175;
+  --bg-white: #ffffff;
+  --bg-w-b: #ffffff;
+  --bg-light: #f4f6f9;
+  --bg-grey: #d9d9d9;
+  --p-black: #000;
+  --p-green: #2f9e44;
+  --p-green-hover: #276e35;
+  --p-red: #e95151;
+  --p-red-hover: #c92a2a;
+  --p-blue: #5799ec;
+  --p-yellow: #ffd050;
+  --p-yellow-hover: #ffc060;
+  --lg-red: #a50034;
+  --f-b-w: #000;
+  --f-b-y: #000;
+  --f-sub: #444;
+}
+
+[data-theme="contrast"] {
+  --bg-splash: #101110;
+  --bg-white: #ffffff;
+  --bg-w-b: #000;
+  --bg-light: #101110;
+  --bg-grey: #d9d9d9;
+  --p-black: #000;
+  --p-green: #2f9e44;
+  --p-green-hover: #276e35;
+  --p-red: #e95151;
+  --p-red-hover: #c92a2a;
+  --p-blue: #5799ec;
+  --p-yellow: #ffd050;
+  --p-yellow-hover: #ffc060;
+  --lg-red: #a50034;
+  --f-b-w: #fff;
+  --f-b-y: #ffd050;
+  --f-sub: #fff;
+}
+
+[data-theme="color"] {
+  --bg-splash: #1e6edc;
+  --bg-white: #ffffff;
+  --bg-w-b: #ffffff;
+  --bg-light: #f4f6f9;
+  --bg-grey: #d9d9d9;
+  --p-black: #000;
+  --p-green: #2f9e44;
+  --p-green-hover: #276e35;
+  --p-red: #e95151;
+  --p-red-hover: #c92a2a;
+  --p-blue: #5799ec;
+  --p-yellow: #ffd050;
+  --p-yellow-hover: #ffc060;
+  --lg-red: #823cc8;
+  --f-b-w: #000;
+  --f-b-y: #000;
+  --f-sub: #444;
+}
+[data-theme="contcolor"] {
+  --bg-splash: #101110;
+  --bg-white: #ffffff;
+  --bg-w-b: #000;
+  --bg-light: #101110;
+  --bg-grey: #d9d9d9;
+  --p-black: #000;
+  --p-green: #2f9e44;
+  --p-green-hover: #276e35;
+  --p-red: #e95151;
+  --p-red-hover: #c92a2a;
+  --p-blue: #5799ec;
+  --p-yellow: #ffd050;
+  --p-yellow-hover: #ffc060;
+  --lg-red: #823cc8;
+  --f-b-w: #fff;
+  --f-b-y: #ffd050;
+  --f-sub: #fff;
+}
+
+@font-face {
+  font-family: "LG Smart UI";
+  src: url("src/LG Smart UI Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LG Smart UI";
+  src: url("src/LG Smart UI Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-white);
+  font-family: "LG Smart UI", "Inter";
+  min-height: 100vh;
+  padding: 24px;
+}
+.back-btn {
+  position: absolute;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.back-btn .arrow {
+  font-size: 3rem;
+  color: var(--f-b-w);
+  line-height: 1;
+}
+
+.back-btn .label {
+  font-size: 1.75rem;
+  color: var(--f-b-w);
+}
+
+.home-btn {
+  position: absolute;
+  right: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Power Button */
+.power-btn {
+  background: var(--p-red);
+  color: var(--p-black);
+  border: 9px solid var(--f-b-w);
+  border-radius: 20px;
+  padding: 52px;
+  font-size: 6.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: -1px;
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.power-btn:hover {
+  background: var(--p-red-hover);
+}
+.power-btn:active {
+  transform: scale(0.97);
+}
+/* Power button states */
+.power-btn.off {
+  background: var(--p-red); /* red - turn off */
+}
+
+.power-btn.on {
+  background: var(--p-green); /* green - turn on */
+}
+
+.power-btn.off:hover {
+  background: var(--p-red-hover);
+}
+.power-btn.on:hover {
+  background: var(--p-green-hover);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(100, 100, 100, 0.55);
+  z-index: 10;
+}
+
+.control-panel {
+  border: 9px solid var(--f-b-w);
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-w-b);
+  position: relative;
+  overflow: hidden;
+}
+
+.ctrl-btn {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 22px 0;
+  font-size: 5rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition:
+    opacity 0.15s ease,
+    transform 0.1s ease;
+}
+
+.ctrl-btn:active {
+  transform: scale(0.96);
+  opacity: 0.85;
+}
+
+.ctrl-btn.blue {
+  background: var(--p-blue);
+  color: var(--f-b-w);
+}
+.ctrl-btn.yellow {
+  background: var(--p-yellow);
+  color: var(--f-b-w);
+}
+
+.ctrl-label {
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--f-b-w);
+}

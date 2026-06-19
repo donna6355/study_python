@@ -4,28 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LG DoDo</title>
+    <link rel="stylesheet" href="theme.css" />
+    <script src="theme.js"></script>
     <style>
-      :root {
-        color-scheme: light;
-        font-family: "LG Smart UI";
-        background: #f4f4f4;
-      }
-
-      @font-face {
-        font-family: "LG Smart UI";
-        src: url("src/LG Smart UI Regular.ttf") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: "LG Smart UI";
-        src: url("src/LG Smart UI Bold.ttf") format("truetype");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -36,22 +17,10 @@
           transform: translateY(0);
         }
       }
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        min-width: 100vw;
-        background: #f4f4f4;
-      }
-
       .splash-screen {
-        margin: 20px;
-        background: #53b175;
+        background: var(--bg-splash);
         min-width: 100% - 40px;
-        min-height: 90vh;
+        min-height: 95vh;
         display: grid;
         place-items: center;
       }
@@ -75,7 +44,7 @@
         font-size: clamp(2.5rem, 3vw, 1.4rem);
         line-height: 1.4;
         font-weight: 700;
-        color: #fff;
+        color: var(--bg-w-b);
         text-align: center;
       }
       @keyframes appear {

@@ -4,47 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>LG DoDo — 가전 제어</title>
+    <link rel="stylesheet" href="theme.css" />
+    <script src="theme.js"></script>
     <style>
-      /* Control Dashboard — Responsive Appliance Management */
-      @font-face {
-        font-family: "LG Smart UI";
-        src: url("src/LG Smart UI Regular.ttf") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: "LG Smart UI";
-        src: url("src/LG Smart UI Bold.ttf") format("truetype");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
       body {
         margin: 0;
         min-height: 100vh;
-        font-family:
-          "LG Smart UI",
-          "Inter",
-          system-ui,
-          -apple-system,
-          "Apple SD Gothic Neo",
-          "Malgun Gothic",
-          sans-serif;
-        background: #fff;
+        font-family: "LG Smart UI", "Inter";
+        background: var(--bg-white);
         padding: 20px;
       }
 
       .control-dashboard {
         min-width: 100% - 40px;
-        min-height: 80vh;
-        background: #f4f6f9;
+        min-height: 95vh;
+        background: var(--bg-light);
         padding: 28px;
         display: flex;
         flex-direction: column;
@@ -54,15 +28,16 @@
       }
       header {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         position: relative;
-        padding: 24px 20px;
+        margin-bottom: 32px;
       }
 
       .home-btn {
         position: absolute;
-        left: 20px;
+        left: 0;
+        right: inherit;
         background: none;
         border: none;
         cursor: pointer;
@@ -72,22 +47,10 @@
       h1 {
         font-size: 5.5rem;
         font-weight: 700;
-        color: #1a1a1a;
+        color: var(--f-b-w);
         margin: 0;
         letter-spacing: -1px;
       }
-      .home-icon {
-        color: #333;
-        flex-shrink: 0;
-      }
-
-      .dashboard-header h1 {
-        margin: 0;
-        font-size: clamp(1.5rem, 5vw, 6rem);
-        font-weight: 700;
-        color: #000;
-      }
-
       /* Devices Grid — responsive layout */
       .devices-grid {
         display: grid;
@@ -100,8 +63,8 @@
         display: flex;
         align-items: center;
         gap: 40px;
-        background: #ffffff;
-        border: 1px solid #e6e6e6;
+        background: var(--bg-w-b);
+        border: 4px solid var(--bg-white);
         border-radius: 24px;
         padding: 40px;
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
@@ -113,10 +76,6 @@
           background 0.15s ease,
           transform 0.1s ease;
         user-select: none;
-      }
-
-      .control-button:hover {
-        background: #f7f7f7;
       }
 
       .control-button:active {
@@ -141,7 +100,7 @@
       .control-name {
         font-size: 4rem;
         font-weight: 800;
-        color: #1a1a1a;
+        color: var(--f-b-w);
         line-height: 1;
         letter-spacing: -0.5px;
       }
@@ -153,32 +112,32 @@
       }
 
       .status-dot {
-        width: 14px;
-        height: 14px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        background: #e03131;
+        background: var(--p-red);
         flex-shrink: 0;
       }
 
       .status-dot.on {
-        background: #2f9e44;
+        background: var(--p-green);
       }
       .status-dot.save {
-        background: #ffd050;
+        background: var(--p-yellow);
       }
 
       .status-label {
         font-size: 3rem;
         font-weight: 700;
-        color: #1a1a1a;
+        color: var(--f-b-w);
       }
 
       /* Power-off Button */
       .power-off-btn {
         appearance: none;
-        border: 3px solid #000;
-        background: #e95151;
-        color: #000;
+        border: 3px solid var(--f-b-w);
+        background: var(--p-red);
+        color: var(--f-b-w);
         padding: 16px 24px;
         border-radius: 50px;
         font-size: clamp(1rem, 4vw, 2rem);
@@ -193,7 +152,7 @@
       }
 
       .power-off-btn:hover {
-        background: #d63d3d;
+        background: var(--p-red-hover);
         box-shadow: 0 8px 20px rgba(233, 81, 81, 0.3);
       }
 
@@ -201,22 +160,13 @@
         transform: scale(0.98);
       }
 
-      .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(100, 100, 100, 0.55);
-        z-index: 10;
-      }
       .confirm-dialog {
         margin: 160px auto;
         width: 100%;
         max-width: 640px;
         border-radius: 28px;
         overflow: hidden;
-        background: #fff;
+        background: var(--bg-w-b);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       }
 
@@ -225,7 +175,7 @@
         text-align: center;
         font-size: 2.5rem;
         font-weight: 700;
-        color: #1a1a1a;
+        color: var(--f-b-w);
         line-height: 1.4;
       }
 
@@ -240,7 +190,7 @@
         font-size: 2.25rem;
         font-weight: 700;
         cursor: pointer;
-        color: #1a1a1a;
+        color: var(--p-black);
         transition: opacity 0.15s ease;
       }
 
@@ -249,11 +199,11 @@
       }
 
       .confirm-btn.yes {
-        background: #4caf7d;
+        background: var(--p-green);
       }
 
       .confirm-btn.yes:hover {
-        background: #3f9d6d;
+        background: var(--p-green-hover);
       }
 
       .confirm-btn.no {

@@ -4,39 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LG DoDo - 스마트 TV</title>
+    <link rel="stylesheet" href="theme.css" />
+    <script src="theme.js"></script>
     <style>
-      @font-face {
-        font-family: "LG Smart UI";
-        src: url("src/LG Smart UI Regular.ttf") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: "LG Smart UI";
-        src: url("src/LG Smart UI Bold.ttf") format("truetype");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        background: #fff;
-        font-family:
-          "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
-        min-height: 100vh;
-        padding: 24px;
-      }
       .control-dashboard {
         min-width: 100% - 40px;
-        min-height: 80vh;
-        background: #f4f6f9;
+        min-height: 95vh;
+        background: var(--bg-light);
         padding: 28px;
         display: flex;
         flex-direction: column;
@@ -52,43 +26,10 @@
         margin-bottom: 32px;
       }
 
-      .back-btn {
-        position: absolute;
-        left: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-      }
-
-      .back-btn .arrow {
-        font-size: 3rem;
-        color: #1a1a1a;
-        line-height: 1;
-      }
-
-      .back-btn .label {
-        font-size: 1.75rem;
-        color: #1a1a1a;
-      }
-
-      .home-btn {
-        position: absolute;
-        right: 0;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-      }
-
       h1 {
         font-size: 5.5rem;
         font-weight: 700;
-        color: #1a1a1a;
+        color: var(--f-b-w);
         letter-spacing: -1px;
       }
 
@@ -122,86 +63,15 @@
       .status-value {
         font-size: 5rem;
         font-weight: 800;
-        color: #1a1a1a;
+        color: var(--f-b-w);
         text-align: center;
       }
 
       .status-label {
         font-size: 2.5rem;
-        color: #444;
+        color: var(--f-sub);
         margin-top: 20px;
         text-align: center;
-      }
-
-      /* Power Button */
-      .power-btn {
-        background: #e95151;
-        color: #000;
-        border: none;
-        border: 9px solid #000;
-        border-radius: 20px;
-        padding: 52px;
-        font-size: 6.5rem;
-        font-weight: 700;
-        cursor: pointer;
-        letter-spacing: -1px;
-        transition:
-          background 0.15s ease,
-          transform 0.1s ease;
-      }
-
-      .power-btn:hover {
-        background: #c92a2a;
-      }
-      .power-btn:active {
-        transform: scale(0.97);
-      }
-
-      /* ── Control Panel (온도 / 바람) ── */
-      .control-panel {
-        border: 9px solid #1a1a1a;
-        border-radius: 20px;
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-        background: #fff;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .ctrl-btn {
-        width: 100%;
-        border: none;
-        border-radius: 14px;
-        padding: 22px 0;
-        font-size: 5rem;
-        font-weight: 900;
-        cursor: pointer;
-        transition:
-          opacity 0.15s ease,
-          transform 0.1s ease;
-      }
-
-      .ctrl-btn:active {
-        transform: scale(0.96);
-        opacity: 0.85;
-      }
-
-      .ctrl-btn.blue {
-        background: #5799ec;
-        color: #1a1a1a;
-      }
-      .ctrl-btn.yellow {
-        background: #ffd050;
-        color: #1a1a1a;
-      }
-
-      .ctrl-label {
-        font-size: 5rem;
-        font-weight: 700;
-        color: #1a1a1a;
       }
       .status-card.off {
         background: linear-gradient(180deg, #d9d9d9, #e8a0b0);
@@ -210,31 +80,6 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-      }
-
-      /* Power button states */
-      .power-btn.off {
-        background: #e03131; /* red - turn off */
-      }
-
-      .power-btn.on {
-        background: #2f9e44; /* green - turn on */
-      }
-
-      .power-btn.off:hover {
-        background: #c92a2a;
-      }
-      .power-btn.on:hover {
-        background: #276e35;
-      }
-      .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(100, 100, 100, 0.55);
-        z-index: 10;
       }
     </style>
   </head>
