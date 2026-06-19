@@ -35,7 +35,7 @@
       }
       .control-dashboard {
         min-width: 100% - 40px;
-        height: 100vh - 40px;
+        min-height: 80vh;
         background: #f4f6f9;
         padding: 28px;
         display: flex;
@@ -159,6 +159,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        flex: 1;
       }
 
       /* Power Button */
@@ -198,6 +199,8 @@
         transition:
           background 0.15s ease,
           transform 0.1s ease;
+        position: relative;
+        overflow: hidden;
       }
 
       .charge-btn:hover {
@@ -332,7 +335,12 @@
           </div>
         </div>
         <div class="left-col">
-          <button class="charge-btn off" id="chargeBtn" onclick="togglePower()">
+          <button
+            class="charge-btn off"
+            id="chargeBtn"
+            onclick="toggleCharge()"
+          >
+            <div class="overlay" style="display: none" id="chargeOverlay"></div>
             충전대로 이동
           </button>
           <button class="power-btn off" id="powerBtn" onclick="togglePower()">
@@ -343,11 +351,61 @@
     </main>
 
     <script>
-      let status = 0; // 0: 청소 중, 1: 충전 중, 2: 대기
+      let isOff = false;
+      let isCharging = false;
       const statusDot = document.getElementById("statusDot");
       const statusLabel = document.getElementById("statusLabel");
       const powerBtn = document.getElementById("powerBtn");
       const chargeBtn = document.getElementById("chargeBtn");
+      const chargeOverlay = document.getElementById("chargeOverlay");
+      const statusCard = document.getElementById("onStatus");
+
+      function togglePower() {
+        if (isOff) {
+          // 청소 중 상태로 전환
+          powerBtn.textContent = "청소 중지";
+          powerBtn.classList.remove("on");
+          powerBtn.classList.add("off");
+
+          statusLabel.textContent = "청소 중";
+          statusDot.classList.remove("sleep");
+          statusDot.classList.remove("charge");
+          statusCard.classList.remove("off");
+          isOff = false;
+        } else {
+          // 정지 상태로 전환
+          powerBtn.textContent = "청소 시작";
+          powerBtn.classList.remove("off");
+          powerBtn.classList.add("on");
+
+          statusLabel.textContent = "일시 정지";
+          statusDot.classList.remove("charge");
+          statusDot.classList.add("sleep");
+          statusCard.classList.add("off");
+          isOff = true;
+        }
+        chargeOverlay.style.display = "none";
+        isCharging = false;
+      }
+
+      function toggleCharge() {
+        if (isCharging) {
+          return;
+        } else {
+          chargeBtn.classList.remove("off");
+          chargeBtn.classList.add("on");
+          powerBtn.textContent = "청소 시작";
+          powerBtn.classList.remove("off");
+          powerBtn.classList.add("on");
+          statusCard.classList.add("off");
+
+          statusLabel.textContent = "충전 중";
+          statusDot.classList.add("charge");
+          chargeOverlay.style.display = "block";
+          isCharging = true;
+          isOff = true;
+        }
+      }
     </script>
   </body>
 </html>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LG DoDo - 스마트 TV</title>
+    <title>LG DoDo - 전기레인지</title>
     <style>
       @font-face {
         font-family: "LG Smart UI";
@@ -35,6 +35,7 @@
       }
       .control-dashboard {
         min-width: 100% - 40px;
+        min-height: 80vh;
         min-height: 80vh;
         background: #f4f6f9;
         padding: 28px;
@@ -95,7 +96,7 @@
       /* ── Main Grid ── */
       .main-grid {
         display: grid;
-        grid-template-columns: 1.3fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         gap: 20px;
         align-items: stretch;
       }
@@ -104,7 +105,7 @@
       .left-col {
         display: flex;
         flex-direction: column;
-        gap: 48px;
+        gap: 24px;
       }
 
       /* Status Card */
@@ -112,16 +113,51 @@
         background: linear-gradient(180deg, #d7d8db, #d2ddf7);
         border-radius: 20px;
         padding: 28px 24px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      .status-top {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
         flex: 1;
         align-items: center;
+        justify-content: space-between;
       }
 
+      .dot-label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .status-dot {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #2f9e44;
+        flex-shrink: 0;
+        margin-right: 16px;
+      }
+
+      .status-dot.sleep {
+        background: #e03131;
+      }
+      .status-dot.charge {
+        background: #ffd050;
+      }
       .status-value {
         font-size: 5rem;
         font-weight: 800;
+        color: #1a1a1a;
+        text-align: center;
+      }
+      .status-top-label {
+        font-size: 3rem;
+        font-weight: 700;
         color: #1a1a1a;
         text-align: center;
       }
@@ -129,13 +165,40 @@
       .status-label {
         font-size: 2.5rem;
         color: #444;
-        margin-top: 20px;
         text-align: center;
+      }
+      .current-status {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
       }
 
       /* Power Button */
       .power-btn {
         background: #e95151;
+        color: #000;
+        border: none;
+        border: 6px solid #000;
+        border-radius: 24px;
+        padding: 24px;
+        font-size: 3rem;
+        cursor: pointer;
+        letter-spacing: -1px;
+        transition:
+          background 0.15s ease,
+          transform 0.1s ease;
+      }
+
+      .power-btn:hover {
+        background: #c92a2a;
+      }
+      .power-btn:active {
+        transform: scale(0.97);
+      }
+      .charge-btn {
+        background: #ffd050;
         color: #000;
         border: none;
         border: 9px solid #000;
@@ -148,12 +211,14 @@
         transition:
           background 0.15s ease,
           transform 0.1s ease;
+        position: relative;
+        overflow: hidden;
       }
 
-      .power-btn:hover {
-        background: #c92a2a;
+      .charge-btn:hover {
+        background: #ffc060;
       }
-      .power-btn:active {
+      .charge-btn:active {
         transform: scale(0.97);
       }
 
@@ -210,6 +275,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
+        padding: 40px 24px;
       }
 
       /* Power button states */
@@ -246,7 +312,7 @@
           <span class="label">이전</span>
         </button>
 
-        <h1>스마트 TV</h1>
+        <h1>전기레인지</h1>
 
         <button
           class="home-btn"
@@ -264,150 +330,103 @@
       </header>
 
       <div class="main-grid">
-        <!-- Left: status + power -->
         <div class="left-col">
-          <div class="status-card" id="onStatus">
-            <div>
-              <div class="status-value" id="channelDisplay">7</div>
-              <div class="status-label">현재 채널</div>
+          <div class="status-card" id="statusCardOne">
+            <div class="status-top">
+              <div class="status-top-label">1번 화구</div>
+              <div class="dot-label">
+                <div class="status-dot" id="statusDotOne"></div>
+                <div class="status-top-label" id="statusLabelOne">사용 중</div>
+              </div>
             </div>
-            <div>
-              <div class="status-value" id="volumeDisplay">8</div>
-              <div class="status-label">볼륨</div>
+            <div class="status-top" id="statusOne">
+              <div>
+                <div class="status-value">8</div>
+                <div class="status-label">화력</div>
+              </div>
+              <div>
+                <div class="status-value">59분</div>
+                <div class="status-label">타이머</div>
+              </div>
+              <button class="power-btn" onclick="togglePower('One')">
+                끄기
+              </button>
             </div>
           </div>
-          <div class="status-card off" id="offStatus" style="display: none">
-            <div class="status-value">꺼짐</div>
+          <div class="status-card off" id="statusCardTwo">
+            <div class="status-top">
+              <div class="status-top-label">2번 화구</div>
+              <div class="dot-label">
+                <div class="status-dot sleep" id="statusDotTwo"></div>
+                <div class="status-top-label" id="statusLabel">꺼짐</div>
+              </div>
+            </div>
           </div>
-
-          <button class="power-btn off" id="powerBtn" onclick="togglePower()">
-            전원 끄기
-          </button>
         </div>
-
-        <!-- Center: 채널 control -->
-        <div class="control-panel">
-          <div class="overlay" style="display: none" id="channelOverlay"></div>
-          <button class="ctrl-btn blue" onclick="changeChannel(1)">
-            <svg
-              width="140"
-              height="140"
-              viewBox="0 0 36 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <polyline
-                points="6,24 18,12 30,24"
-                stroke="#1a1a1a"
-                stroke-width="4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-          <span class="ctrl-label">채널</span>
-          <button class="ctrl-btn blue" onclick="changeChannel(-1)">
-            <svg
-              width="140"
-              height="140"
-              viewBox="0 0 36 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <polyline
-                points="6,12 18,24 30,12"
-                stroke="#1a1a1a"
-                stroke-width="4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Right: 볼륨 control -->
-        <div class="control-panel">
-          <div class="overlay" style="display: none" id="volOverlay"></div>
-          <button class="ctrl-btn yellow" onclick="changeVolume(1)">
-            <svg
-              width="140"
-              height="140"
-              viewBox="0 0 36 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <polyline
-                points="6,24 18,12 30,24"
-                stroke="#1a1a1a"
-                stroke-width="4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-          <span class="ctrl-label">볼륨</span>
-          <button class="ctrl-btn yellow" onclick="changeVolume(-1)">
-            <svg
-              width="140"
-              height="140"
-              viewBox="0 0 36 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <polyline
-                points="6,12 18,24 30,12"
-                stroke="#1a1a1a"
-                stroke-width="4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
+        <div class="left-col">
+          <div class="status-card" id="statusCardThree">
+            <div class="status-top">
+              <div class="status-top-label">3번 화구</div>
+              <div class="dot-label">
+                <div class="status-dot" id="statusDotThree"></div>
+                <div class="status-top-label" id="statusLabelThree">
+                  사용 중
+                </div>
+              </div>
+            </div>
+            <div class="status-top" id="statusThree">
+              <div>
+                <div class="status-value">4</div>
+                <div class="status-label">화력</div>
+              </div>
+              <div>
+                <div class="status-value">48분</div>
+                <div class="status-label">타이머</div>
+              </div>
+              <button class="power-btn" onclick="togglePower('Three')">
+                끄기
+              </button>
+            </div>
+          </div>
+          <div class="status-card" id="statusCardFour">
+            <div class="status-top">
+              <div class="status-top-label">4번 화구</div>
+              <div class="dot-label">
+                <div class="status-dot" id="statusDotFour"></div>
+                <div class="status-top-label" id="statusLabelFour">사용 중</div>
+              </div>
+            </div>
+            <div class="status-top" id="statusFour">
+              <div>
+                <div class="status-value">5</div>
+                <div class="status-label">화력</div>
+              </div>
+              <div>
+                <div class="status-value">55분</div>
+                <div class="status-label">타이머</div>
+              </div>
+              <button
+                class="power-btn"
+                id="powerBtnFour"
+                onclick="togglePower('Four')"
+              >
+                끄기
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </main>
-
     <script>
-      let channel = 7;
-      let volume = 8;
-      let windIndex = 1;
-      let isOn = true;
-      function togglePower() {
-        isOn = !isOn;
-
-        const powerBtn = document.getElementById("powerBtn");
-        const onCard = document.getElementById("onStatus");
-        const offCard = document.getElementById("offStatus");
-        const channelOverlay = document.getElementById("channelOverlay");
-        const volOverlay = document.getElementById("volOverlay");
-
-        if (isOn) {
-          // ON state
-          powerBtn.textContent = "전원 끄기";
-          powerBtn.className = "power-btn off";
-          onCard.style.display = "grid";
-          offCard.style.display = "none";
-          channelOverlay.style.display = "none";
-          volOverlay.style.display = "none";
-        } else {
-          // OFF state
-          powerBtn.textContent = "전원 켜기";
-          powerBtn.className = "power-btn on";
-          onCard.style.display = "none";
-          offCard.style.display = "flex";
-          channelOverlay.style.display = "block";
-          volOverlay.style.display = "block";
-        }
-      }
-
-      function changeChannel(delta) {
-        channel = Math.min(100, Math.max(1, channel + delta));
-        document.getElementById("channelDisplay").textContent = channel;
-      }
-
-      function changeVolume(delta) {
-        volume = Math.min(30, Math.max(0, volume + delta));
-        document.getElementById("volumeDisplay").textContent = volume;
+      function togglePower(num) {
+        const status = document.getElementById(`status${num}`);
+        const statusDot = document.getElementById(`statusDot${num}`);
+        const statusLabel = document.getElementById(`statusLabel${num}`);
+        const statusCard = document.getElementById(`statusCard${num}`);
+        status.style.display = "none";
+        statusDot.classList.add("sleep");
+        statusLabel.textContent = "꺼짐";
+        statusCard.classList.add("off");
       }
     </script>
   </body>

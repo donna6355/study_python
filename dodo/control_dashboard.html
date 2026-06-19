@@ -43,7 +43,7 @@
 
       .control-dashboard {
         min-width: 100% - 40px;
-        height: 100vh - 40px;
+        min-height: 80vh;
         background: #f4f6f9;
         padding: 28px;
         display: flex;
@@ -275,15 +275,19 @@
             </div>
           </div>
         </button>
-        <button class="control-button" onclick="" aria-label="인덕션 토글">
+        <button
+          class="control-button"
+          onclick="location.href = 'control_stove.html'"
+          aria-label="전기레인지 토글"
+        >
           <img
             class="control-icon"
-            src="https://www.figma.com/api/mcp/asset/19f5b566-30d9-41e6-a27a-1aa36042cf01"
-            alt="인덕션"
+            src="https://www.figma.com/api/mcp/asset/978d0c07-9fc6-425b-8adc-92a01b0608e0"
+            alt="전기레인지"
           />
 
           <div class="control-info">
-            <span class="control-name">인덕션</span>
+            <span class="control-name">전기레인지</span>
             <div class="control-status">
               <span class="status-dot on" id="statusDot"></span>
               <span class="status-label" id="statusLabel">16분 사용 중</span>
@@ -317,7 +321,7 @@
         >
           <img
             class="control-icon"
-            src="https://www.figma.com/api/mcp/asset/978d0c07-9fc6-425b-8adc-92a01b0608e0"
+            src="https://www.figma.com/api/mcp/asset/19f5b566-30d9-41e6-a27a-1aa36042cf01"
             alt="공기청정기"
           />
 
