@@ -294,6 +294,7 @@
         bigPanel.classList.remove("on");
         updateTheme();
         setRootFontSize(16);
+        setVoiceMode(false);
       }
       function turnOnAll() {
         voiceOn = true;
@@ -306,6 +307,7 @@
         bigPanel.classList.add("on");
         updateTheme();
         setRootFontSize(20);
+        setVoiceMode(true);
       }
       function toggleColor() {
         color = !color;
@@ -329,8 +331,10 @@
         voiceOn = !voiceOn;
         if (voiceOn) {
           voicePanel.classList.add("on");
+          setVoiceMode(true);
         } else {
           voicePanel.classList.remove("on");
+          setVoiceMode(false);
         }
       }
 
@@ -345,8 +349,10 @@
         }
       }
       function setLocalVar() {
-        const savedTheme = localStorage.getItem("theme") || "default";
-        const savedSize = localStorage.getItem("fontSize") || false;
+        if (voiceMode == "true") {
+          voiceOn = true;
+          voicePanel.classList.add("on");
+        }
         if (savedSize == "20") {
           big = true;
           bigPanel.classList.add("on");
@@ -370,6 +376,11 @@
 
       // On page load, restore saved preference
       setLocalVar();
+      if (voiceMode == "true") {
+        speak(
+          "환경 설정, 음성 알림 모드, 고대비 모드, 큰 글씨 모드, 색상 보정 모드"
+        );
+      }
     </script>
   </body>
 </html>

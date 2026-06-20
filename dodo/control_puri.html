@@ -222,6 +222,9 @@
         document.getElementById("windDisplay").textContent =
           windLevels[windIndex];
       }
+      if (voiceMode == "true") {
+        speak("공기청정기 청정 세기 약 작동중, 전원 끄기, 세기");
+      }
     </script>
   </body>
 </html>

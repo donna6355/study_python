@@ -260,6 +260,11 @@
         statusLabel.textContent = "꺼짐";
         statusCard.classList.add("off");
       }
+      if (voiceMode == "true") {
+        speak(
+          "전기레인지 1번 화구 사용중, 2번화구 꺼짐, 3번화구 사용중, 4번화구 사용중"
+        );
+      }
     </script>
   </body>
 </html>

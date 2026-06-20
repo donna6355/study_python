@@ -401,6 +401,12 @@
       function closePopup() {
         popupOverlay.style.display = "none";
       }
+
+      if (voiceMode == "true") {
+        speak(
+          "가전 제어, 스마트 티비, 세탁기, 에어컨, 전기레인지, 로봇청소기, 공기청정기, 모든 기기 전원 끄기"
+        );
+      }
     </script>
   </body>
 </html>

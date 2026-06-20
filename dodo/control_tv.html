@@ -255,6 +255,10 @@
         volume = Math.min(30, Math.max(0, volume + delta));
         document.getElementById("volumeDisplay").textContent = volume;
       }
+
+      if (voiceMode == "true") {
+        speak("스마트 티비 시청중, 전원 끄기, 채널, 볼륨");
+      }
     </script>
   </body>
 </html>

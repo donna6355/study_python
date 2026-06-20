@@ -69,6 +69,9 @@
       </div>
     </div>
     <script>
+      if (voiceMode == "true") {
+        speak("말이 필요 없는 대화, 두두");
+      }
       setTimeout(() => {
         window.location.href = "home.html";
       }, 2000);

@@ -304,6 +304,10 @@
         document.getElementById("windDisplay").textContent =
           windLevels[windIndex];
       }
+
+      if (voiceMode == "true") {
+        speak("에어컨 24도 냉방중, 전원 끄기, 온도, 바람");
+      }
     </script>
   </body>
 </html>
