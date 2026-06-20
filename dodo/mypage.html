@@ -4,47 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>LG DoDo — 마이페이지</title>
+    <link rel="stylesheet" href="theme.css" />
+    <script src="theme.js"></script>
     <style>
-      /* Control Dashboard — Responsive Appliance Management */
-      @font-face {
-        font-family: "LG Smart UI";
-        src: url("src/LG Smart UI Regular.ttf") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: "LG Smart UI";
-        src: url("src/LG Smart UI Bold.ttf") format("truetype");
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family:
-          "LG Smart UI",
-          "Inter",
-          system-ui,
-          -apple-system,
-          "Apple SD Gothic Neo",
-          "Malgun Gothic",
-          sans-serif;
-        background: #fff;
-        padding: 20px;
-      }
-
       .mypage {
         min-width: 100% - 40px;
         min-height: 95vh;
-        background: #f4f6f9;
+        background: var(--bg-light);
         padding: 28px;
         display: flex;
         flex-direction: column;
@@ -54,15 +20,16 @@
       }
       header {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         position: relative;
-        padding: 24px 20px;
+        margin-bottom: 32px;
       }
 
       .home-btn {
         position: absolute;
         left: 20px;
+        right: inherit;
         background: none;
         border: none;
         cursor: pointer;
@@ -72,15 +39,15 @@
       h1 {
         font-size: 5.5rem;
         font-weight: 700;
-        color: #1a1a1a;
+        color: var(--f-b-w);
         margin: 0;
         letter-spacing: -1px;
       }
       .power-off-btn {
         appearance: none;
-        border: 3px solid #000;
-        background: #a50034;
-        color: #fff;
+        border: 3px solid var(--f-b-w);
+        background: var(--lg-red);
+        color: var(--bg-w-b);
         padding: 16px 24px;
         border-radius: 50px;
         font-size: clamp(1rem, 4vw, 2rem);
@@ -95,16 +62,12 @@
       }
 
       .power-off-btn:hover {
-        background: #d63d3d;
+        background: var(--p-red-hover);
         box-shadow: 0 8px 20px rgba(233, 81, 81, 0.3);
       }
 
       .power-off-btn:active {
         transform: scale(0.98);
-      }
-      .home-icon {
-        color: #333;
-        flex-shrink: 0;
       }
       .main-section {
         display: flex;
@@ -124,7 +87,7 @@
 
       .card {
         width: 100%;
-        background: #d9d9d9;
+        background: var(--bg-grey);
         border-radius: 20px;
         padding: 48px 56px;
         display: flex;
@@ -136,7 +99,7 @@
       }
       .user-profile {
         width: 100%;
-        background: #d9d9d9;
+        background: var(--bg-grey);
         border-radius: 20px;
         padding: 80px 56px;
         display: flex;
@@ -153,7 +116,7 @@
       }
       .setting-btn {
         width: 100%;
-        background: #fff;
+        background: var(--bg-w-b);
         border: 0px;
         border-radius: 20px;
         padding: 40px 28px;
@@ -186,12 +149,12 @@
       .label-bold {
         font-size: 2.5rem;
         font-weight: 700;
-        color: #1a1a1a;
+        color: var(--f-b-w);
         margin: 0;
       }
       .label-reg {
         font-size: 2rem;
-        color: #1a1a1a;
+        color: var(--f-b-w);
         margin: 0;
       }
     </style>

@@ -10,6 +10,7 @@
   --p-red: #e95151;
   --p-red-hover: #c92a2a;
   --p-blue: #5799ec;
+  --p-blue-hover: rgb(82, 135, 201);
   --p-yellow: #ffd050;
   --p-yellow-hover: #ffc060;
   --lg-red: #a50034;
@@ -23,16 +24,17 @@
   --bg-white: #ffffff;
   --bg-w-b: #000;
   --bg-light: #101110;
-  --bg-grey: #d9d9d9;
+  --bg-grey: #000;
   --p-black: #000;
   --p-green: #2f9e44;
   --p-green-hover: #276e35;
   --p-red: #e95151;
   --p-red-hover: #c92a2a;
   --p-blue: #5799ec;
+  --p-blue-hover: rgb(82, 135, 201);
   --p-yellow: #ffd050;
   --p-yellow-hover: #ffc060;
-  --lg-red: #a50034;
+  --lg-red: #ffc060;
   --f-b-w: #fff;
   --f-b-y: #ffd050;
   --f-sub: #fff;
@@ -50,6 +52,7 @@
   --p-red: #e95151;
   --p-red-hover: #c92a2a;
   --p-blue: #5799ec;
+  --p-blue-hover: rgb(82, 135, 201);
   --p-yellow: #ffd050;
   --p-yellow-hover: #ffc060;
   --lg-red: #823cc8;
@@ -62,13 +65,14 @@
   --bg-white: #ffffff;
   --bg-w-b: #000;
   --bg-light: #101110;
-  --bg-grey: #d9d9d9;
+  --bg-grey: #000;
   --p-black: #000;
   --p-green: #2f9e44;
   --p-green-hover: #276e35;
   --p-red: #e95151;
   --p-red-hover: #c92a2a;
   --p-blue: #5799ec;
+  --p-blue-hover: rgb(82, 135, 201);
   --p-yellow: #ffd050;
   --p-yellow-hover: #ffc060;
   --lg-red: #823cc8;
@@ -92,7 +96,9 @@
   font-style: normal;
   font-display: swap;
 }
-
+html {
+  font-size: 16px;
+}
 * {
   margin: 0;
   padding: 0;

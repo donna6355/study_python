@@ -1,16 +1,14 @@
-// function setTheme(themeName) {
-//   document.documentElement.setAttribute("data-theme", themeName);
-//   localStorage.setItem("theme", themeName); // remember user's choice
-// }
+function setTheme(themeName) {
+  document.documentElement.setAttribute("data-theme", themeName);
+  localStorage.setItem("theme", themeName); // remember user's choice
+}
 
-// // On page load, restore saved preference
-// const savedTheme = localStorage.getItem("theme") || "default";
-// setTheme(savedTheme);
+function setRootFontSize(size) {
+  document.documentElement.style.fontSize = `${size}px`;
+  localStorage.setItem("fontSize", size); // remember user's choice
+}
 
-// // Wire to your existing toggle button
-// contrastPanel.addEventListener("click", () => {
-//   const isOn = contrastPanel.getAttribute("aria-pressed") === "true";
-//   const newOn = !isOn;
-//   contrastPanel.setAttribute("aria-pressed", newOn);
-//   setTheme(newOn ? "contrast" : "default");
-// });
+const savedTheme = localStorage.getItem("theme") || "default";
+const savedSize = localStorage.getItem("fontSize") || 16;
+setTheme(savedTheme);
+setRootFontSize(savedSize);
