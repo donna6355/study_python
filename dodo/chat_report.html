@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>LG DoDo - 대화 리포트</title>
+    <link rel="stylesheet" href="theme.css" />
+    <script src="theme.js"></script>
+
+    <style>
+      :root {
+        --yellow: #f6c659;
+        --yellow-light: #fbd98a;
+        --peach: #f4a489;
+        --blue-tag: #b9d6f2;
+        --green-tag: #8fd2ab;
+        --peach-tag: #f5ad93;
+      }
+
+      .report-screen {
+        background: var(--bg-light);
+        min-width: 100vw - 40px;
+        min-height: 95vh;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+      }
+      header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 32px;
+      }
+      .home-btn {
+        position: absolute;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      h1 {
+        font-size: 5.5rem;
+        font-weight: 700;
+        color: var(--f-b-w);
+        margin: 0;
+        letter-spacing: -1px;
+      }
+      .report {
+        width: 100%;
+        display: grid;
+        min-height: 100%;
+        grid-template-columns: 0.7fr 1fr;
+        gap: 16px;
+      }
+      .info {
+        display: flex;
+        flex-direction: row;
+        border-radius: 20px;
+        width: 100%;
+        font-size: 1.8rem;
+        text-align: center;
+        padding: 36px;
+        background: #a3d3b7;
+      }
+      .sub {
+        margin-top: 40px;
+        margin-bottom: 20px;
+        font-size: 2.8rem;
+        font-weight: 700;
+      }
+      .date-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .report-detail {
+        min-height: 100%;
+        border-radius: 20px;
+        width: 100%;
+        font-size: 1.8rem;
+        padding: 36px;
+        background: var(--bg-grey);
+        display: flex;
+        flex-direction: column;
+      }
+      .report-date {
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--f-b-w);
+      }
+
+      .report-duration {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--f-b-w);
+      }
+
+      .report-title {
+        margin-top: 12px;
+        font-size: 38px;
+        font-weight: 800;
+        color: var(--f-b-w);
+      }
+
+      .report-divider {
+        margin-top: 22px;
+        margin-bottom: 30px;
+        border: none;
+        border-top: 2px solid #c7cad0;
+      }
+
+      .report-body {
+        font-size: 25px;
+        line-height: 1.7;
+        font-weight: 500;
+        color: var(--f-b-w);
+        flex: 1;
+      }
+
+      .tag-row {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+      }
+      .tag {
+        height: 58px;
+        padding: 0 28px;
+        border-radius: 29px;
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--f-b-w);
+        white-space: nowrap;
+      }
+      .tag.yellow {
+        background: var(--yellow);
+      }
+      .tag.blue {
+        background: var(--blue-tag);
+      }
+      .tag.green {
+        background: var(--green-tag);
+      }
+      .tag.peach {
+        background: var(--peach-tag);
+      }
+      .report-btn {
+        min-width: 100%;
+        border: none;
+        border-radius: 20px;
+        display: flex;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        padding: 16px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+      .btn-date {
+        font-size: 1.5rem;
+        font-weight: 400;
+      }
+      .btn-dur {
+        font-size: 1.2rem;
+        font-weight: 400;
+      }
+      .report-btn.selected {
+        background: #a3d3b7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="report-screen">
+      <header>
+        <button class="back-btn" onclick="history.back()" aria-label="이전으로">
+          <span class="arrow">←</span>
+          <span class="label">이전</span>
+        </button>
+        <h1>대화 리포트</h1>
+        <button
+          class="home-btn"
+          onclick="location.href = 'home.html'"
+          type="button"
+          aria-label="홈으로 이동"
+        >
+          <img
+            src="src/icon_home.png"
+            alt="홈으로 가기 아이콘"
+            width="120"
+            height="120"
+          />
+        </button>
+      </header>
+      <section class="report">
+        <div>
+          <div class="info">
+            <img src="src/icon_rip.png" alt="check" width="80px" />
+            <div style="margin-left: 24px">
+              <p style="font-size: 2rem; font-weight: 500; margin-bottom: 8px">
+                대화가 안전하게 보관되었어요
+              </p>
+              <p>총 4개의 대화가 분석되어 있어요</p>
+            </div>
+          </div>
+          <p class="sub">날짜별 대화</p>
+          <button
+            class="report-btn selected"
+            id="report0"
+            onclick="updateDetail(0)"
+          >
+            <div class="btn-date">오늘</div>
+            <div>가족들과 함께한 저녁 식사</div>
+            <div>
+              <img src="src/icon_rice.png" alt="rice" width="40px" />
+              <div class="btn-dur">37분 42초</div>
+            </div>
+          </button>
+          <button class="report-btn" id="report1" onclick="updateDetail(1)">
+            <div class="btn-date">어제</div>
+            <div>아들과 여행 계획</div>
+            <div>
+              <img src="src/icon_travel.png" alt="travel" width="40px" />
+              <div class="btn-dur">23분 32초</div>
+            </div>
+          </button>
+          <button class="report-btn" id="report2" onclick="updateDetail(2)">
+            <div class="btn-date">6/10</div>
+            <div>건강검진 예약 부탁</div>
+            <div>
+              <img src="src/icon_cross.png" alt="cross" width="40px" />
+              <div class="btn-dur">15분 22초</div>
+            </div>
+          </button>
+          <button class="report-btn" id="report3" onclick="updateDetail(3)">
+            <div class="btn-date">6/6</div>
+            <div>친구와 함께한 저녁 식사</div>
+            <div>
+              <img src="src/icon_rice.png" alt="rice" width="40px" />
+              <div class="btn-dur">17분 42초</div>
+            </div>
+          </button>
+        </div>
+        <div class="report-detail">
+          <div class="date-row">
+            <div class="report-date" id="rpDate">2026.06.09</div>
+            <div class="report-duration" id="rpDuration">37분 42초</div>
+          </div>
+          <div class="report-title" id="rpTitle">가족들과 함께한 저녁 식사</div>
+          <hr class="report-divider" />
+          <div class="report-body" id="rpBody">
+            오늘 저녁 식사 자리에서는 부쩍 더워진 날씨와 소중한 추억을 주제로
+            생동감 넘치는 대화가 오갔습니다. 식사 초반에는 더위를 식히기 위해
+            에어컨을 켜자는 제안이 나와 실내 온도를 시원하게 맞추었으며, 이후
+            화제는 자연스럽게 예전에 다녀왔던 여수 여행 이야기로 이어졌습니다.
+            특히 할머니와 함께했던 여수 바다의 풍경과 당시의 즐거웠던 기억들을
+            생생하게 회상하며 웃음꽃을 피웠고, 조만간 꼭 다시 한번 다 같이
+            여행을 떠나자는 따뜻한 약속을 나누었습니다.
+          </div>
+          <div class="tag-row">
+            <div class="tag yellow" id="rpT0">#저녁식사</div>
+            <div class="tag blue" id="rpT1">#미역국</div>
+            <div class="tag green" id="rpT2">#할머니</div>
+            <div class="tag peach" id="rpT3">#여행</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      let selected = 0;
+      const chats = [
+        [
+          "오늘",
+          "2026.06.25",
+          "가족들과 함께한 저녁 식사",
+          "37분 42초",
+          "오늘 저녁 식사 자리에서는 부쩍 더워진 날씨와 소중한 추억을 주제로 생동감 넘치는 대화가 오갔습니다. 식사 초반에는 더위를 식히기 위해 에어컨을 켜자는 제안이 나와 실내 온도를 시원하게 맞추었으며, 이후 화제는 자연스럽게 예전에 다녀왔던 여수 여행 이야기로 이어졌습니다. 특히 할머니와 함께했던 여수 바다의 풍경과 당시의 즐거웠던 기억들을 생생하게 회상하며 웃음꽃을 피웠고, 조만간 꼭 다시 한번 다 같이 여행을 떠나자는 따뜻한 약속을 나누었습니다.",
+          ["#저녁식사", "#미역국", "#할머니", "#여행"],
+        ],
+        [
+          "어제",
+          "2026.06.24",
+          "아들과 여행 계획",
+          "23분 32초",
+          "아들과 함께 다가오는 휴가를 어떻게 보낼지 여행 계획을 세우며 즐거운 시간을 보냈습니다. 처음에는 부산과 제주도 중 어느 곳이 좋을지 의견을 나누었고, 각 지역의 관광지와 먹거리, 이동 방법 등을 비교해 보았습니다. 또한 숙소 예약 시기와 예산에 대해서도 이야기를 나누며 현실적인 계획을 정리했으며, 최종적으로는 제주도를 우선 후보로 두고 호텔과 항공권을 함께 알아보기로 했습니다.",
+          ["#부산", "#제주", "#호텔", "#여행"],
+        ],
+        [
+          "6/10",
+          "2026.06.10",
+          "건강검진 예약 부탁",
+          "15분 22초",
+          "건강검진 일정을 잡기 위해 필요한 사항들을 정리하며 대화를 진행했습니다. 원하는 검진 날짜와 시간을 먼저 확인한 뒤, 병원 예약 가능 여부와 준비 사항에 대해 함께 살펴보았습니다. 검진 당일 이동이 불편하지 않도록 택시 이용 계획도 논의했으며, 예약 시간을 오전으로 잡아 검진 후 일정을 보다 여유롭게 소화할 수 있도록 조율했습니다.",
+          ["#검진", "#예약", "#택시", "#시간"],
+        ],
+        [
+          "6/6",
+          "2026.06.06",
+          "친구와 함께한 저녁 식사",
+          "17분 42초",
+          "오랜만에 만난 친구와 식사를 하며 근황과 계절 이야기를 나누었습니다. 최근 이어지는 더운 날씨 때문에 건강 관리가 중요하다는 이야기가 나왔고, 다가오는 복날에는 보양식을 먹으러 가자는 제안도 이어졌습니다. 서로의 일상과 취미 생활에 대해 편안하게 대화를 나누며 즐거운 시간을 보냈고, 다음에는 다른 친구들도 함께 모여 식사 자리를 마련하자는 계획을 세웠습니다.",
+          ["#점심식사", "#더위", "#복날", "#근황"],
+        ],
+      ];
+      const rpDate = document.getElementById("rpDate");
+      const rpDuration = document.getElementById("rpDuration");
+      const rpTitle = document.getElementById("rpTitle");
+      const rpBody = document.getElementById("rpBody");
+      const rpT0 = document.getElementById("rpT0");
+      const rpT1 = document.getElementById("rpT1");
+      const rpT2 = document.getElementById("rpT2");
+      const rpT3 = document.getElementById("rpT3");
+
+      function updateDetail(idx) {
+        document
+          .getElementById(`report${selected}`)
+          .classList.remove("selected");
+        selected = idx;
+        document.getElementById(`report${selected}`).classList.add("selected");
+        const data = chats[idx];
+        rpDate.textContent = data[1];
+        rpTitle.textContent = data[2];
+        rpDuration.textContent = data[3];
+        rpBody.textContent = data[4];
+        rpT0.textContent = data[5][0];
+        rpT1.textContent = data[5][1];
+        rpT2.textContent = data[5][2];
+        rpT3.textContent = data[5][3];
+      }
+    </script>
+  </body>
+</html>
